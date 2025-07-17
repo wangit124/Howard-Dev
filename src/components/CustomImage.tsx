@@ -23,7 +23,8 @@ const CustomImage = ({
       className={cn(
         "relative",
         radius === "rounded-full" ? "rounded-full" : radius,
-        "overflow-hidden"
+        "overflow-hidden",
+        "flex-shrink-0",
       )}
       style={{ width, height }}
     >
