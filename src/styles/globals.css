@@ -1,0 +1,48 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme inline {
+  --font: var(--font-inter);
+  --font-tight: var(--inter-tight);
+  --color-primary: var(--primary);
+  --color-primary-gradient-start: var(--primary-gradient-start);
+  --color-primary-gradient-end: var(--primary-gradient-end);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+}
+
+:root {
+  --primary: #CFB97D;
+  --primary-gradient-start: #CFB97D;
+  --primary-gradient-end: #94814C;
+  --secondary: #000000;
+  --accent: #ffffff;
+}
+
+@layer base {
+  body {
+    @apply text-secondary;
+  }
+
+  h1 {
+    @apply text-secondary text-2xl font-bold;
+  }
+
+  h2 {
+    @apply text-secondary text-xl font-bold;
+  }
+
+  h3 {
+    @apply text-secondary text-lg;
+  }
+
+  p {
+    @apply text-secondary text-base;
+  }
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-inter);
+}

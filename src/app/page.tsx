@@ -1,15 +1,13 @@
-import { DotPattern } from "@/components/ui/dot-pattern";
-import Flex from "@/components/ui/flex";
+"use client";
+
+import BubbleContent from "@/features/BubbleContent";
+import InteractiveBubbles from "@/features/InteractiveBubbles";
 
 export default function Home() {
   return (
-    <div className="h-full">
-      <DotPattern />
-      <Flex justify="center" className="w-full h-full pt-30">
-        <div className=" w-[80%] z-1 bg-white color-white rounded-lg">
-          asdf
-        </div>
-      </Flex>
+    <div className="bg-[url('/polygons_bg.svg')] flex w-full h-full">
+      <InteractiveBubbles />
+      <BubbleContent />
     </div>
   );
 }
