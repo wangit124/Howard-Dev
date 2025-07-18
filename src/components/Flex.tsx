@@ -5,6 +5,7 @@ import React from "react";
 
 const Flex = ({
   children,
+  id,
   className,
   direction = "row",
   justify = "start",
@@ -12,6 +13,7 @@ const Flex = ({
   style,
 }: {
   children?: React.ReactNode;
+  id?: string;
   className?: string;
   direction?: "col" | "row";
   justify?: "start" | "center" | "end" | "between";
@@ -20,6 +22,7 @@ const Flex = ({
 }) => {
   return (
     <div
+      id={id}
       className={cn(
         "flex",
         "flex-s-0",
@@ -34,6 +37,7 @@ const Flex = ({
           : items === "end"
           ? "items-end"
           : "items-start",
+        "flex-shrink-0",
         className
       )}
       style={style}
