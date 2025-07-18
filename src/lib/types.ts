@@ -21,6 +21,12 @@ export type QuadrantToOffsetCache = {
 export enum BubbleType {
   ABOUT = "about",
   PROJECTS = "projects",
-  EXPERIENCE = "experience",
+  CAREER = "career",
   STATS = "stats",
+}
+
+export enum COLOR {
+  PRIMARY = "#CFB97D",
+  SECONDARY = "#000000",
+  ACCENT = "#FFFFFF",
 }

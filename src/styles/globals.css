@@ -21,23 +21,31 @@
 
 @layer base {
   body {
-    @apply text-secondary;
+    @apply text-accent;
   }
 
   h1 {
-    @apply text-secondary text-2xl font-bold;
+    @apply text-accent text-2xl font-bold;
   }
 
   h2 {
-    @apply text-secondary text-xl font-bold;
+    @apply text-accent text-xl font-bold;
   }
 
   h3 {
-    @apply text-secondary text-lg;
+    @apply text-accent text-lg;
   }
 
   p {
-    @apply text-secondary text-base;
+    @apply text-accent text-base;
+  }
+
+  a {
+    @apply text-accent text-base;
+  }
+  
+  .base-text {
+    @apply text-accent text-sm;
   }
 }
 
@@ -50,4 +58,27 @@ html, body {
   padding: 0;
   overflow: hidden;
   font-family: var(--font-inter);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1A1A1A;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #94814CAA;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94814CAA;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #94814CAA #1A1A1A; /* thumb track */
 }

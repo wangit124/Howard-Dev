@@ -6,10 +6,11 @@ import {
   useActiveBubbleStore,
 } from "@/hooks/useActiveBubbleStore";
 import { useBreakpoints } from "@/hooks/useBreakpoints";
-import { DEFAULT_BUBBLE_SIZE, ProfileBubbleWidth } from "@/lib/constants";
+import { DEFAULT_BUBBLE_SIZE, PROFILE_BUBBLE_SIZE } from "@/lib/constants";
 import {
   Breakpoints,
   BubbleType,
+  COLOR,
   QuadrantToOffsetCache,
   QuadrantTypes,
 } from "@/lib/types";
@@ -48,7 +49,7 @@ const connectBubblesWithLine = ({
     y: fromCenter.y - baseOffsetFrom,
   };
   if (isActiveBubble && breakpoints.md) {
-    targetPos.x = breakpoints.width / 2;
+    targetPos.x = breakpoints.width / 2 - 40;
     targetPos.y = baseOffsetTo / 4;
   } else if (quadrant === "top-left") {
     targetPos.x -= randomXOffset;
@@ -107,19 +108,19 @@ export default function InteractiveBubbles() {
   const breakpoints = useBreakpoints();
   const heightStops = breakpoints.height % 50 === 0;
 
-  const { activeBubble, bubblePositions, setActiveBubble, setBubblePositions } =
+  const { activeBubble, bubblePositions, setActiveBubble } =
     useActiveBubbleStore();
 
   const getRandomOffset = () => ({
     x: getRandomNumInclusive(
-      ProfileBubbleWidth / 2 + 30,
+      PROFILE_BUBBLE_SIZE / 2 + 30,
       Math.floor(
         !breakpoints.md ? breakpoints.width / 2 : breakpoints.width / 4
       ) -
         (DEFAULT_BUBBLE_SIZE / 2 + (breakpoints.md ? 14 : 30))
     ),
     y: getRandomNumInclusive(
-      ProfileBubbleWidth / 2 + 30,
+      PROFILE_BUBBLE_SIZE / 2 + 30,
       Math.floor(breakpoints.height / 2) -
         (DEFAULT_BUBBLE_SIZE / 2 + (breakpoints.md ? 14 : 30))
     ),
@@ -142,16 +143,6 @@ export default function InteractiveBubbles() {
     ]
   );
 
-  const swapActiveBubble = (bubble: BubbleType) => {
-    const temp = bubblePositions[activeBubble];
-    setBubblePositions({
-      ...bubblePositions,
-      [activeBubble]: bubblePositions[bubble],
-      [bubble]: temp,
-    });
-    setActiveBubble(bubble);
-  };
-
   useEffect(() => {
     updateBubblePositions({
       activeBubble,
@@ -165,8 +156,8 @@ export default function InteractiveBubbles() {
     <div>
       <GradientBubble
         id="profile_bubble"
-        width={ProfileBubbleWidth}
-        height={ProfileBubbleWidth}
+        width={PROFILE_BUBBLE_SIZE}
+        height={PROFILE_BUBBLE_SIZE}
         transparent
         className="absolute z-99"
         style={{
@@ -181,7 +172,7 @@ export default function InteractiveBubbles() {
         <div key={type}>
           <GradientBubble
             id={`${type}_bubble`}
-            onClick={() => swapActiveBubble(type)}
+            onClick={() => setActiveBubble(type)}
             className="absolute z-99"
             style={{
               top: "50%",
@@ -191,7 +182,7 @@ export default function InteractiveBubbles() {
               }, -50%)`,
             }}
           >
-            <Text size="h1" className="capitalize">
+            <Text size="h1" className="text-secondary capitalize">
               {type}
             </Text>
           </GradientBubble>
@@ -199,7 +190,7 @@ export default function InteractiveBubbles() {
             id={`${type}_bubble_svg`}
             className="absolute w-full h-full pointer-events-none"
           >
-            <line id={`${type}_bubble_line`} stroke="#CFB97D" strokeWidth="1" />
+            <line id={`${type}_bubble_line`} stroke={COLOR.PRIMARY} strokeWidth="1" />
           </svg>
         </div>
       ))}

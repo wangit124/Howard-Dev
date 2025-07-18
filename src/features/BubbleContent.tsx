@@ -1,13 +1,17 @@
 "use client";
 
 import { Flex } from "@/components";
+import { useActiveBubbleStore } from "@/hooks/useActiveBubbleStore";
 import { useBreakpoints } from "@/hooks/useBreakpoints";
 import { DEFAULT_BUBBLE_SIZE } from "@/lib/constants";
+import { BubbleType } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
+import About from "./content/About";
 
 export default function BubbleContent() {
   const { md, width } = useBreakpoints();
+  const { activeBubble } = useActiveBubbleStore();
   useEffect(() => {
     const bubbleContentBg = document.getElementById("bubble_content_bg");
     if (!bubbleContentBg) return;
@@ -21,17 +25,20 @@ export default function BubbleContent() {
       items="center"
       className={cn(
         "absolute",
-        "top-[30px]",
+        "top-[40px]",
         "bottom-[30px]",
         "right-[30px]",
         "bg-linear-to-b",
         "from-primary-gradient-start",
         "to-primary-gradient-end",
         "rounded-lg",
-        "p-2"
+        "p-2",
+        "scrollable"
       )}
     >
-      <Flex className="bg-black w-full h-full rounded-md"></Flex>
+      <Flex className="bg-black w-full h-full rounded-md overflow-auto px-12 py-8">
+        {activeBubble === BubbleType.ABOUT && <About />}
+      </Flex>
     </Flex>
   );
 }

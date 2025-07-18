@@ -18,7 +18,7 @@ const Flex = ({
   className?: string;
   onClick?: () => void;
   direction?: "col" | "row";
-  justify?: "start" | "center" | "end" | "between";
+  justify?: "start" | "center" | "end" | "between" | "evenly";
   items?: "start" | "center" | "end";
   style?: React.CSSProperties;
 }) => {
@@ -32,6 +32,10 @@ const Flex = ({
           ? "justify-center"
           : justify === "end"
           ? "justify-end"
+          : justify === "between"
+          ? "justify-between"
+          : justify === "evenly"
+          ? "justify-evenly"
           : "justify-start",
         items === "center"
           ? "items-center"

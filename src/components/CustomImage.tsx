@@ -1,6 +1,6 @@
 "use client";
 
-import { DEFAULT_IMAGE_SIZE } from "@/lib/constants";
+import { DEFAULT_PROFILE_IMAGE_SIZE } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
@@ -9,8 +9,8 @@ const CustomImage = ({
   src,
   alt,
   radius,
-  width = DEFAULT_IMAGE_SIZE,
-  height = DEFAULT_IMAGE_SIZE,
+  width = DEFAULT_PROFILE_IMAGE_SIZE,
+  height = DEFAULT_PROFILE_IMAGE_SIZE,
 }: {
   src: string;
   alt: string;

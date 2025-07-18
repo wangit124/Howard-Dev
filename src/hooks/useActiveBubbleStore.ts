@@ -5,7 +5,7 @@ import { persist } from "zustand/middleware";
 export type ActiveBubbleStoreType = {
   activeBubble: BubbleType;
   bubblePositions: Record<BubbleType, QuadrantTypes>;
-  setActiveBubble: (activeBubble: BubbleType) => void;
+  setActiveBubble: (bubble: BubbleType) => void;
   setBubblePositions: (
     bubblePositions: Record<BubbleType, QuadrantTypes>
   ) => void;
@@ -18,10 +18,21 @@ export const useActiveBubbleStore = create<ActiveBubbleStoreType>()(
       bubblePositions: {
         [BubbleType.ABOUT]: "top-right",
         [BubbleType.PROJECTS]: "top-left",
-        [BubbleType.EXPERIENCE]: "bottom-left",
+        [BubbleType.CAREER]: "bottom-left",
         [BubbleType.STATS]: "bottom-right",
       },
-      setActiveBubble: (activeBubble) => set({ activeBubble }),
+      setActiveBubble: (bubble) =>
+        set((prev) => {
+          const temp = prev.bubblePositions[prev.activeBubble];
+          return {
+            activeBubble: bubble,
+            bubblePositions: {
+              ...prev.bubblePositions,
+              [prev.activeBubble]: prev.bubblePositions[bubble],
+              [bubble]: temp,
+            },
+          };
+        }),
       setBubblePositions: (bubblePositions) => set({ bubblePositions }),
     }),
     { name: "active-bubble-store" }
