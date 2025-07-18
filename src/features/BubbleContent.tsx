@@ -8,6 +8,9 @@ import { BubbleType } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
 import About from "./content/About";
+import Career from "./content/Career";
+import Projects from "./content/Projects";
+import Stats from "./content/Stats";
 
 export default function BubbleContent() {
   const { md, width } = useBreakpoints();
@@ -38,6 +41,9 @@ export default function BubbleContent() {
     >
       <Flex className="bg-black w-full h-full rounded-md overflow-auto px-12 py-8">
         {activeBubble === BubbleType.ABOUT && <About />}
+        {activeBubble === BubbleType.CAREER && <Career />}
+        {activeBubble === BubbleType.PROJECTS && <Projects />}
+        {activeBubble === BubbleType.STATS && <Stats />}
       </Flex>
     </Flex>
   );

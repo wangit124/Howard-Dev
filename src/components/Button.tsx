@@ -29,7 +29,7 @@ const Button: React.FC<
         "items-center",
         "justify-center",
         "cursor-pointer",
-        "hover:scale-110"
+        "hover:scale-106"
       )}
     >
       {variant === "primary" ? (

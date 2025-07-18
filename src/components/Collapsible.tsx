@@ -1,0 +1,49 @@
+"use client";
+
+import { cn } from "@/lib/utils";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import React, { useState } from "react";
+
+type CollapsibleProps = {
+  className?: string;
+  headerContent: React.ReactNode;
+  hiddenContent: React.ReactNode;
+};
+
+const Collapsible: React.FC<CollapsibleProps> = ({
+  className,
+  headerContent,
+  hiddenContent,
+}) => {
+  const [collapsed, setCollapsed] = useState(true);
+  return (
+    <div
+      className={cn(
+        "bg-linear-to-b",
+        "from-primary-gradient-start",
+        "to-primary-gradient-end",
+        "rounded-lg",
+        "p-[2px]",
+        "flex",
+        "items-center",
+        "justify-center",
+        "cursor-pointer",
+        "hover:scale-102",
+        className
+      )}
+      onClick={() => setCollapsed((prev) => !prev)}
+    >
+      <div className="bg-secondary p-2 rounded-md w-full">
+        <div className="flex items-center w-full">
+          <div className="flex flex-1">{headerContent}</div>
+          <div className="mr-4">
+            {collapsed ? <ChevronDown /> : <ChevronUp />}
+          </div>
+        </div>
+        {!collapsed && <div className="p-4">{hiddenContent}</div>}
+      </div>
+    </div>
+  );
+};
+
+export default Collapsible;

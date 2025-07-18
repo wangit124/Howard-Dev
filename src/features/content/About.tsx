@@ -4,11 +4,7 @@ import { Button, Flex, Text } from "@/components";
 import Badge from "@/components/Badge";
 import HeadingDivider from "@/components/HeadingDivider";
 import { useActiveBubbleStore } from "@/hooks/useActiveBubbleStore";
-import {
-  PERSONAL_EMAIL,
-  PERSONAL_LINKS,
-  PERSONAL_SKILLS,
-} from "@/lib/constants";
+import { PERSONAL_EMAIL, PERSONAL_LINKS, PERSONAL_SKILLS } from "@/data";
 import { BubbleType, COLOR } from "@/lib/types";
 import { openUrl } from "@/lib/utils";
 import { FileIcon, Github, GraduationCap, Linkedin, Mail } from "lucide-react";
