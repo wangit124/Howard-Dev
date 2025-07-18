@@ -27,7 +27,6 @@ const Flex = ({
       id={id}
       className={cn(
         "flex",
-        "flex-s-0",
         direction === "col" ? "flex-col" : "flex-row",
         justify === "center"
           ? "justify-center"

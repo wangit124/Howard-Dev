@@ -48,8 +48,8 @@ const connectBubblesWithLine = ({
     y: fromCenter.y - baseOffsetFrom,
   };
   if (isActiveBubble && breakpoints.md) {
-    targetPos.x = breakpoints.width / 2 + baseOffsetTo / 4;
-    targetPos.y = baseOffsetTo / 2;
+    targetPos.x = breakpoints.width / 2;
+    targetPos.y = baseOffsetTo / 4;
   } else if (quadrant === "top-left") {
     targetPos.x -= randomXOffset;
     targetPos.y -= randomYOffset;
@@ -159,7 +159,6 @@ export default function InteractiveBubbles() {
       breakpoints,
       quadrantToOffsetCache,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [breakpoints, activeBubble, bubblePositions, quadrantToOffsetCache]);
 
   return (
