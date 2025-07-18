@@ -9,6 +9,7 @@ const GradientBubble = ({
   children,
   id,
   className,
+  onClick,
   width = DEFAULT_BUBBLE_SIZE,
   height = DEFAULT_BUBBLE_SIZE,
   transparent,
@@ -17,6 +18,7 @@ const GradientBubble = ({
   children?: React.ReactNode;
   id?: string;
   className?: string;
+  onClick?: () => void;
   width?: number;
   height?: number;
   transparent?: boolean;
@@ -25,6 +27,7 @@ const GradientBubble = ({
   return (
     <Flex
       id={id}
+      onClick={onClick}
       justify="center"
       items="center"
       className={cn(

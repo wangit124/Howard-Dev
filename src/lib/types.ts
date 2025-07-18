@@ -17,3 +17,10 @@ export type QuadrantTypes =
 export type QuadrantToOffsetCache = {
   [k in QuadrantTypes]: { x: number; y: number };
 };
+
+export enum BubbleType {
+  ABOUT = "about",
+  PROJECTS = "projects",
+  EXPERIENCE = "experience",
+  STATS = "stats",
+}

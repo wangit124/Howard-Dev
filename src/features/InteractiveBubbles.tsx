@@ -1,19 +1,31 @@
 "use client";
 
 import { Text, GradientBubble, CustomImage } from "@/components";
+import {
+  ActiveBubbleStoreType,
+  useActiveBubbleStore,
+} from "@/hooks/useActiveBubbleStore";
 import { useBreakpoints } from "@/hooks/useBreakpoints";
 import { DEFAULT_BUBBLE_SIZE, ProfileBubbleWidth } from "@/lib/constants";
-import { Breakpoints, QuadrantToOffsetCache, QuadrantTypes } from "@/lib/types";
+import {
+  Breakpoints,
+  BubbleType,
+  QuadrantToOffsetCache,
+  QuadrantTypes,
+} from "@/lib/types";
 import { getRandomNumInclusive } from "@/lib/utils";
-import { useLayoutEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 const connectBubblesWithLine = ({
+  isActiveBubble,
   fromBubble,
   toBubble,
+  breakpoints,
   line,
   quadrant,
   quadrantToOffsetCache,
 }: {
+  isActiveBubble: boolean;
   fromBubble: HTMLElement;
   toBubble: HTMLElement;
   line: HTMLElement;
@@ -30,14 +42,15 @@ const connectBubblesWithLine = ({
   const baseOffsetFrom = fromRect.width / 2;
   const baseOffsetTo = toRect.width / 2;
   const randomXOffset = quadrantToOffsetCache[quadrant]?.x;
-
   const randomYOffset = quadrantToOffsetCache[quadrant]?.y;
-
   const targetPos = {
     x: fromCenter.x - baseOffsetFrom,
     y: fromCenter.y - baseOffsetFrom,
   };
-  if (quadrant === "top-left") {
+  if (isActiveBubble && breakpoints.md) {
+    targetPos.x = breakpoints.width / 2 + baseOffsetTo / 4;
+    targetPos.y = baseOffsetTo / 2;
+  } else if (quadrant === "top-left") {
     targetPos.x -= randomXOffset;
     targetPos.y -= randomYOffset;
   } else if (quadrant === "top-right") {
@@ -59,72 +72,43 @@ const connectBubblesWithLine = ({
   line.setAttribute("y2", (targetPos.y + baseOffsetTo).toString());
 };
 
-const updateBubblePositions = (
-  breakpoints: Breakpoints,
-  quadrantToOffsetCache: QuadrantToOffsetCache
-) => {
+const updateBubblePositions = ({
+  activeBubble,
+  breakpoints,
+  bubblePositions,
+  quadrantToOffsetCache,
+}: {
+  activeBubble: BubbleType;
+  bubblePositions: ActiveBubbleStoreType["bubblePositions"];
+  breakpoints: Breakpoints;
+  quadrantToOffsetCache: QuadrantToOffsetCache;
+}) => {
   const profileBubble = document.getElementById("profile_bubble");
-  const aboutBubble = document.getElementById("about_bubble");
-  const projectsBubble = document.getElementById("projects_bubble");
-  const experienceBubble = document.getElementById("experience_bubble");
-  const statsBubble = document.getElementById("stats_bubble");
-  const aboutBubbleLine = document.getElementById("about_bubble_line");
-  const projectsBubbleLine = document.getElementById("projects_bubble_line");
-  const experienceBubbleLine = document.getElementById(
-    "experience_bubble_line"
-  );
-  const statsBubbleLine = document.getElementById("stats_bubble_line");
-  if (
-    !profileBubble ||
-    !aboutBubble ||
-    !projectsBubble ||
-    !experienceBubble ||
-    !statsBubble ||
-    !aboutBubbleLine ||
-    !projectsBubbleLine ||
-    !experienceBubbleLine ||
-    !statsBubbleLine
-  ) {
-    return;
+  if (!profileBubble) return;
+  const bubbles = Object.values(BubbleType);
+  for (const bubbleType of bubbles) {
+    const isActiveBubble = bubbleType === activeBubble;
+    const toBubble = document.getElementById(`${bubbleType}_bubble`);
+    const toBubbleLine = document.getElementById(`${bubbleType}_bubble_line`);
+    if (!toBubble || !toBubbleLine) return;
+    connectBubblesWithLine({
+      isActiveBubble,
+      fromBubble: profileBubble,
+      toBubble,
+      line: toBubbleLine,
+      breakpoints,
+      quadrant: bubblePositions[bubbleType],
+      quadrantToOffsetCache,
+    });
   }
-  connectBubblesWithLine({
-    fromBubble: profileBubble,
-    toBubble: projectsBubble,
-    line: projectsBubbleLine,
-    breakpoints,
-    quadrant: "top-left",
-    quadrantToOffsetCache,
-  });
-  connectBubblesWithLine({
-    fromBubble: profileBubble,
-    toBubble: aboutBubble,
-    line: aboutBubbleLine,
-    breakpoints,
-    quadrant: "top-right",
-    quadrantToOffsetCache,
-  });
-  connectBubblesWithLine({
-    fromBubble: profileBubble,
-    toBubble: experienceBubble,
-    line: experienceBubbleLine,
-    breakpoints,
-    quadrant: "bottom-left",
-    quadrantToOffsetCache,
-  });
-  connectBubblesWithLine({
-    fromBubble: profileBubble,
-    toBubble: statsBubble,
-    line: statsBubbleLine,
-    breakpoints,
-    quadrant: "bottom-right",
-    quadrantToOffsetCache,
-  });
 };
 
 export default function InteractiveBubbles() {
   const breakpoints = useBreakpoints();
-
   const heightStops = breakpoints.height % 50 === 0;
+
+  const { activeBubble, bubblePositions, setActiveBubble, setBubblePositions } =
+    useActiveBubbleStore();
 
   const getRandomOffset = () => ({
     x: getRandomNumInclusive(
@@ -132,11 +116,12 @@ export default function InteractiveBubbles() {
       Math.floor(
         !breakpoints.md ? breakpoints.width / 2 : breakpoints.width / 4
       ) -
-        (DEFAULT_BUBBLE_SIZE / 2 + 20)
+        (DEFAULT_BUBBLE_SIZE / 2 + (breakpoints.md ? 14 : 30))
     ),
     y: getRandomNumInclusive(
       ProfileBubbleWidth / 2 + 30,
-      Math.floor(breakpoints.height / 2) - (DEFAULT_BUBBLE_SIZE / 2 + 20)
+      Math.floor(breakpoints.height / 2) -
+        (DEFAULT_BUBBLE_SIZE / 2 + (breakpoints.md ? 14 : 30))
     ),
   });
 
@@ -157,47 +142,28 @@ export default function InteractiveBubbles() {
     ]
   );
 
-  useLayoutEffect(() => {
-    updateBubblePositions(breakpoints, quadrantToOffsetCache);
+  const swapActiveBubble = (bubble: BubbleType) => {
+    const temp = bubblePositions[activeBubble];
+    setBubblePositions({
+      ...bubblePositions,
+      [activeBubble]: bubblePositions[bubble],
+      [bubble]: temp,
+    });
+    setActiveBubble(bubble);
+  };
+
+  useEffect(() => {
+    updateBubblePositions({
+      activeBubble,
+      bubblePositions,
+      breakpoints,
+      quadrantToOffsetCache,
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [breakpoints]);
+  }, [breakpoints, activeBubble, bubblePositions, quadrantToOffsetCache]);
 
   return (
-    <>
-      <GradientBubble
-        id="projects_bubble"
-        className="absolute z-99"
-        style={{
-          top: "50%",
-          left: !breakpoints.md ? "50%" : "25%",
-          transform: `translate(${!breakpoints.md ? "-50%" : "-25%"}, -50%)`,
-        }}
-      >
-        <Text size="h1">Projects</Text>
-      </GradientBubble>
-      <svg
-        id="projects_bubble_svg"
-        className="absolute w-full h-full pointer-events-none"
-      >
-        <line id="projects_bubble_line" stroke="#CFB97D" strokeWidth="1" />
-      </svg>
-      <GradientBubble
-        id="about_bubble"
-        className="absolute z-99"
-        style={{
-          top: "50%",
-          left: !breakpoints.md ? "50%" : "25%",
-          transform: `translate(${!breakpoints.md ? "-50%" : "-25%"}, -50%)`,
-        }}
-      >
-        <Text size="h1">About</Text>
-      </GradientBubble>
-      <svg
-        id="about_bubble_svg"
-        className="absolute w-full h-full pointer-events-none"
-      >
-        <line id="about_bubble_line" stroke="#CFB97D" strokeWidth="1" />
-      </svg>
+    <div>
       <GradientBubble
         id="profile_bubble"
         width={ProfileBubbleWidth}
@@ -212,40 +178,32 @@ export default function InteractiveBubbles() {
       >
         <CustomImage src="/profile.png" alt="profile" radius="rounded-full" />
       </GradientBubble>
-      <svg
-        id="experience_bubble_svg"
-        className="absolute w-full h-full pointer-events-none"
-      >
-        <line id="experience_bubble_line" stroke="#CFB97D" strokeWidth="1" />
-      </svg>
-      <GradientBubble
-        id="experience_bubble"
-        className="absolute z-99"
-        style={{
-          top: "50%",
-          left: !breakpoints.md ? "50%" : "25%",
-          transform: `translate(${!breakpoints.md ? "-50%" : "-25%"}, -50%)`,
-        }}
-      >
-        <Text size="h1">Experience</Text>
-      </GradientBubble>
-      <svg
-        id="stats_bubble_svg"
-        className="absolute top-0 left-0 w-full h-full pointer-events-none"
-      >
-        <line id="stats_bubble_line" stroke="#CFB97D" strokeWidth="1" />
-      </svg>
-      <GradientBubble
-        id="stats_bubble"
-        className="absolute z-99"
-        style={{
-          top: "50%",
-          left: !breakpoints.md ? "50%" : "25%",
-          transform: `translate(${!breakpoints.md ? "-50%" : "-25%"}, -50%)`,
-        }}
-      >
-        <Text size="h1">Stats</Text>
-      </GradientBubble>
-    </>
+      {Object.values(BubbleType).map((type) => (
+        <div key={type}>
+          <GradientBubble
+            id={`${type}_bubble`}
+            onClick={() => swapActiveBubble(type)}
+            className="absolute z-99"
+            style={{
+              top: "50%",
+              left: !breakpoints.md ? "50%" : "25%",
+              transform: `translate(${
+                !breakpoints.md ? "-50%" : "-25%"
+              }, -50%)`,
+            }}
+          >
+            <Text size="h1" className="capitalize">
+              {type}
+            </Text>
+          </GradientBubble>
+          <svg
+            id={`${type}_bubble_svg`}
+            className="absolute w-full h-full pointer-events-none"
+          >
+            <line id={`${type}_bubble_line`} stroke="#CFB97D" strokeWidth="1" />
+          </svg>
+        </div>
+      ))}
+    </div>
   );
 }

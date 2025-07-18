@@ -7,6 +7,7 @@ const Flex = ({
   children,
   id,
   className,
+  onClick,
   direction = "row",
   justify = "start",
   items = "start",
@@ -15,6 +16,7 @@ const Flex = ({
   children?: React.ReactNode;
   id?: string;
   className?: string;
+  onClick?: () => void;
   direction?: "col" | "row";
   justify?: "start" | "center" | "end" | "between";
   items?: "start" | "center" | "end";
@@ -41,6 +43,7 @@ const Flex = ({
         className
       )}
       style={style}
+      onClick={onClick}
     >
       {children}
     </div>
