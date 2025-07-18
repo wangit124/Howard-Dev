@@ -124,6 +124,8 @@ const updateBubblePositions = (
 export default function InteractiveBubbles() {
   const breakpoints = useBreakpoints();
 
+  const heightStops = breakpoints.height % 50 === 0;
+
   const getRandomOffset = () => ({
     x: getRandomNumInclusive(
       ProfileBubbleWidth / 2 + 30,
@@ -151,13 +153,13 @@ export default function InteractiveBubbles() {
       breakpoints.sm,
       breakpoints.md,
       breakpoints.lg,
-      breakpoints.height,
+      heightStops,
     ]
   );
 
   useLayoutEffect(() => {
     updateBubblePositions(breakpoints, quadrantToOffsetCache);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [breakpoints]);
 
   return (
