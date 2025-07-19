@@ -120,7 +120,7 @@ export const PROJECTS = [
   },
   {
     thumbnail: "/projects/thumbnails/easytour.png",
-    name: "Easy Tour - Mood-based Trip Planner",
+    name: "Easy Tour - AI Trip Planner",
     description:
       "LA Hacks 2019 Submission - Trip planner that creates tour routes based on your mood. Pick a color mood for your next trip and the app will recommend places based on that mood. Created using Node.js, HTML, CSS, Javascript.",
     code: "https://github.com/wangit124/Easy-Tour",

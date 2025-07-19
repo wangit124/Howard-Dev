@@ -58,7 +58,7 @@ export default function Modal({ isOpen, toggleOpen, children }: ModalProps) {
           <div
             onClick={() => toggleOpen(false)}
             className={cn(
-              "rounded-full bg-primary absolute p-2 z-200 hover:scale-110 cursor-pointer",
+              "rounded-full bg-primary absolute p-2 z-200 hover:scale-108 cursor-pointer",
               md ? "top-18 right-38" : "top-4 right-4"
             )}
           >

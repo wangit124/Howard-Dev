@@ -3,17 +3,20 @@
 import { Card, Button, Badge, Flex, Text, HeadingDivider } from "@/components";
 import { PROJECTS } from "@/data";
 import { useBubbleContentModal } from "@/hooks/useBubbleContentModalStore";
+import { useTrackAnalytics } from "@/hooks/useTrackAnalytics";
 import { useVideoModalStore } from "@/hooks/useVideoModalStore";
 import { cn, openUrl } from "@/lib/utils";
 import { CodeXml, Play } from "lucide-react";
 import Image from "next/image";
 
 const Projects = () => {
+  const { track } = useTrackAnalytics();
   const { setVideoPath, toggleOpen: toggleVideoModalOpen } =
     useVideoModalStore();
   const { toggleOpen: toggleBubbleModalOpen } = useBubbleContentModal();
 
   const onClickCard = (project: (typeof PROJECTS)[0]) => {
+    track({ type: "click", entity: "projects", item: project.name });
     if (!project.video) {
       openUrl(project.code);
       return;
@@ -53,7 +56,7 @@ const Projects = () => {
                   variant="secondary"
                   onClick={(e) => {
                     e.stopPropagation();
-                    openUrl(project.code);
+                    onClickCard(project);
                   }}
                 >
                   <CodeXml />

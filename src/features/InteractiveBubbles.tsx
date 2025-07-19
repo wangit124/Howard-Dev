@@ -7,6 +7,7 @@ import {
 } from "@/hooks/useActiveBubbleStore";
 import { useBreakpoints } from "@/hooks/useBreakpoints";
 import { useBubbleContentModal } from "@/hooks/useBubbleContentModalStore";
+import { useTrackAnalytics } from "@/hooks/useTrackAnalytics";
 import { PROFILE_BUBBLE_SIZE } from "@/lib/constants";
 import {
   Breakpoints,
@@ -106,6 +107,7 @@ const updateBubblePositions = ({
 };
 
 export default function InteractiveBubbles() {
+  const { track } = useTrackAnalytics();
   const breakpoints = useBreakpoints();
   const heightStops = breakpoints.height % 50 === 0;
 
@@ -164,7 +166,10 @@ export default function InteractiveBubbles() {
     if (!breakpoints.md) {
       toggleOpen(true);
     }
+    track({ type: "click", entity: "bubble", item: type });
   };
+
+  if (!window) return null;
 
   return (
     <div>

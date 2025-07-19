@@ -28,7 +28,14 @@ const CustomImage = ({
       )}
       style={{ width, height }}
     >
-      <Image priority src={src} alt={alt} className="object-cover" fill />
+      <Image
+        priority
+        src={src}
+        alt={alt}
+        className="object-cover"
+        fill
+        sizes="100%"
+      />
     </div>
   );
 };

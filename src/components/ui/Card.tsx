@@ -24,7 +24,7 @@ const Card: React.FC<CardProps> = ({ className, children, ...props }) => {
         "items-center",
         "justify-center",
         "cursor-pointer",
-        "hover:scale-102",
+        "hover:scale-101",
         className
       )}
       {...props}

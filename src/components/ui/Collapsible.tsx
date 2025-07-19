@@ -6,16 +6,20 @@ import React, { useState } from "react";
 
 type CollapsibleProps = {
   className?: string;
+  defaultExpanded?: boolean;
   headerContent: React.ReactNode;
   hiddenContent: React.ReactNode;
+  onClick?: () => void;
 };
 
 const Collapsible: React.FC<CollapsibleProps> = ({
   className,
+  defaultExpanded,
   headerContent,
   hiddenContent,
+  onClick,
 }) => {
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(!defaultExpanded);
   return (
     <div
       className={cn(
@@ -28,10 +32,13 @@ const Collapsible: React.FC<CollapsibleProps> = ({
         "items-center",
         "justify-center",
         "cursor-pointer",
-        "hover:scale-102",
+        "hover:scale-101",
         className
       )}
-      onClick={() => setCollapsed((prev) => !prev)}
+      onClick={() => {
+        setCollapsed((prev) => !prev);
+        if (!collapsed) onClick?.();
+      }}
     >
       <div className="bg-secondary p-2 rounded-md w-full">
         <div className="flex items-center w-full">

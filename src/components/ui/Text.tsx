@@ -14,7 +14,8 @@ const Text = ({
   children?: React.ReactNode;
   size?: "h1" | "h2" | "h3" | "p" | "base";
   link?: boolean;
-  onClick?: () => void;
+} & {
+  onClick?: React.MouseEventHandler<unknown>;
 }) => {
   if (link) {
     return (

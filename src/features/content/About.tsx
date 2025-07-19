@@ -6,11 +6,34 @@ import { PERSONAL_EMAIL, PERSONAL_LINKS, PERSONAL_SKILLS } from "@/data";
 import { BubbleType, COLOR } from "@/lib/types";
 import { openUrl } from "@/lib/utils";
 import { FileIcon, Github, GraduationCap, Linkedin, Mail } from "lucide-react";
+import { useTrackAnalytics } from "@/hooks/useTrackAnalytics";
 
 const About = () => {
+  const { track } = useTrackAnalytics();
   const { setActiveBubble } = useActiveBubbleStore();
-  const goToCareerBubble = () => setActiveBubble(BubbleType.CAREER);
-  const goToProjectsBubble = () => setActiveBubble(BubbleType.PROJECTS);
+  const goToCareerBubble = () => {
+    setActiveBubble(BubbleType.CAREER);
+    track({ type: "click", entity: "about", item: "career_bubble" });
+  };
+  const goToProjectsBubble = () => {
+    setActiveBubble(BubbleType.PROJECTS);
+    track({ type: "click", entity: "about", item: "projects_bubble" });
+  };
+  const onClickLinkedIn = () => {
+    openUrl(PERSONAL_LINKS.LINKEDIN);
+    track({ type: "click", entity: "about", item: "linkedin_button" });
+  };
+  const onClickGithub = () => {
+    openUrl(PERSONAL_LINKS.GITHUB);
+    track({ type: "click", entity: "about", item: "github_button" });
+  };
+  const onClickEmail = () => {
+    openUrl(`mailto:${PERSONAL_EMAIL}`);
+    track({ type: "click", entity: "about", item: "email_button" });
+  };
+  const onClickResume = () => {
+    track({ type: "click", entity: "about", item: "resume_button" });
+  };
   return (
     <Flex direction="col" className="flex-1 w-full">
       <Text size="p" className="w-full flex-1 text-wrap">
@@ -39,29 +62,24 @@ const About = () => {
           ship products that matter!
         </Text>
       </Text>
-      <Flex justify="start" items="center" className="gap-3 pt-6 pb-5 w-full flex-1 flex-wrap">
-        <Button
-          variant="secondary"
-          onClick={() => openUrl(PERSONAL_LINKS.LINKEDIN)}
-        >
+      <Flex
+        justify="start"
+        items="center"
+        className="gap-3 pt-6 pb-5 w-full flex-1 flex-wrap"
+      >
+        <Button variant="secondary" onClick={onClickLinkedIn}>
           <Linkedin size="20px" color={COLOR.PRIMARY} />
           <Text className="ml-2 text-primary font-bold">LinkedIn</Text>
         </Button>
-        <Button
-          variant="secondary"
-          onClick={() => openUrl(PERSONAL_LINKS.GITHUB)}
-        >
+        <Button variant="secondary" onClick={onClickGithub}>
           <Github size="20px" color={COLOR.PRIMARY} />
           <Text className="ml-2 text-primary font-bold">Github</Text>
         </Button>
-        <Button
-          variant="secondary"
-          onClick={() => openUrl(`mailto:${PERSONAL_EMAIL}`)}
-        >
+        <Button variant="secondary" onClick={onClickEmail}>
           <Mail size="20px" color={COLOR.PRIMARY} />
           <Text className="ml-2 text-primary font-bold">Email</Text>
         </Button>
-        <Button variant="primary">
+        <Button variant="primary" onClick={onClickResume}>
           <FileIcon size="20px" color="black" strokeWidth={2} />
           <Text className="ml-2 text-secondary font-bold">Resume</Text>
         </Button>

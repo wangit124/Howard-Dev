@@ -2,9 +2,18 @@
 
 import { Collapsible, CustomImage, Text, Flex } from "@/components";
 import { CAREER_ROLES } from "@/data";
+import { useTrackAnalytics } from "@/hooks/useTrackAnalytics";
 import { cn } from "@/lib/utils";
 
 const Career = () => {
+  const { track } = useTrackAnalytics();
+  const onClickCollapsible = (company: string) =>
+    track({
+      type: "click",
+      entity: "career",
+      item: company,
+    });
+
   return (
     <Flex direction="col" className="w-full h-full">
       {CAREER_ROLES.map((careerRole, index) => (
@@ -27,6 +36,7 @@ const Career = () => {
             />
           </div>
           <Collapsible
+            onClick={() => onClickCollapsible(careerRole.company)}
             className="w-full my-2"
             headerContent={
               <Flex items="center" className="flex-1">

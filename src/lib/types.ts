@@ -30,3 +30,26 @@ export enum COLOR {
   SECONDARY = "#000000",
   ACCENT = "#FFFFFF",
 }
+
+export type TrackClickOrViewInput = {
+  type: "view" | "click";
+  entity?: string;
+  item?: string;
+};
+
+export type ClickDataColumns = {
+  name: string;
+  uniqueCount: number | string;
+  totalCount: number | string;
+};
+
+export type ViewDataColumns = { name: string; count: number | string };
+
+export type AnalyticsSummary = {
+  totalViews: number;
+  uniqueViews: number;
+  itemClicksSummary: Record<
+    string,
+    { uniqueCount: number; totalCount: number }
+  >;
+};
