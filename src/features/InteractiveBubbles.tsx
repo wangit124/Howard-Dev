@@ -1,6 +1,6 @@
 "use client";
 
-import { Text, GradientBubble, CustomImage } from "@/components";
+import { GradientBubble, CustomImage } from "@/components";
 import {
   ActiveBubbleStoreType,
   useActiveBubbleStore,
@@ -9,15 +9,10 @@ import { useBreakpoints } from "@/hooks/useBreakpoints";
 import { useBubbleContentModal } from "@/hooks/useBubbleContentModalStore";
 import { useTrackAnalytics } from "@/hooks/useTrackAnalytics";
 import { PROFILE_BUBBLE_SIZE } from "@/lib/constants";
-import {
-  Breakpoints,
-  BubbleType,
-  COLOR,
-  QuadrantToOffsetCache,
-  QuadrantTypes,
-} from "@/lib/types";
-import { cn, getRandomNumInclusive } from "@/lib/utils";
-import { useEffect, useMemo } from "react";
+import { Breakpoints, BubbleType, QuadrantTypes } from "@/lib/types";
+import { useEffect } from "react";
+import DraggableBubble from "@/components/DraggableBubble";
+import { getRandomNumInclusive } from "@/lib/utils";
 
 const connectBubblesWithLine = ({
   isActiveBubble,
@@ -26,7 +21,6 @@ const connectBubblesWithLine = ({
   breakpoints,
   line,
   quadrant,
-  quadrantToOffsetCache,
 }: {
   isActiveBubble: boolean;
   fromBubble: HTMLElement;
@@ -34,57 +28,71 @@ const connectBubblesWithLine = ({
   line: HTMLElement;
   breakpoints: Breakpoints;
   quadrant: QuadrantTypes;
-  quadrantToOffsetCache: QuadrantToOffsetCache;
 }) => {
-  const toRect = toBubble.getBoundingClientRect();
+  // Position toBubble
   const fromRect = fromBubble.getBoundingClientRect();
+  const fromOffset = fromRect.width / 2;
   const fromCenter = {
-    x: fromRect.left + fromRect.width / 2,
-    y: fromRect.top + fromRect.height / 2,
+    x: fromRect.left + fromOffset,
+    y: fromRect.top + fromOffset,
   };
-  const baseOffsetFrom = fromRect.width / 2;
-  const baseOffsetTo = toRect.width / 2;
-  const randomXOffset = quadrantToOffsetCache[quadrant]?.x;
-  const randomYOffset = quadrantToOffsetCache[quadrant]?.y;
-  const targetPos = {
-    x: fromCenter.x - baseOffsetFrom / 2,
-    y: fromCenter.y - baseOffsetFrom / 2,
-  };
+  let toRect = toBubble.getBoundingClientRect();
+  const xRightBound = breakpoints.md
+    ? breakpoints.width / 2
+    : breakpoints.width;
+  const targetThresholds: Record<QuadrantTypes, { x: number[]; y: number[] }> =
+    {
+      "top-left": {
+        x: [toRect.width, fromRect.left - toRect.width],
+        y: [30, fromRect.top - toRect.height - 30],
+      },
+      "top-right": {
+        x: [fromRect.right, xRightBound - toRect.width - 40],
+        y: [30, fromRect.top - toRect.height - 30],
+      },
+      "bottom-left": {
+        x: [toRect.width, fromRect.left - toRect.width],
+        y: [fromRect.bottom, breakpoints.height - toRect.height - 30],
+      },
+      "bottom-right": {
+        x: [fromRect.right, xRightBound - toRect.width - 40],
+        y: [fromRect.bottom, breakpoints.height - toRect.height - 30],
+      },
+    };
+  const target = { x: fromCenter.x, y: fromCenter.y };
   if (isActiveBubble && breakpoints.md) {
-    targetPos.x = breakpoints.width / 2 - 40;
-    targetPos.y = baseOffsetTo / 4;
-  } else if (quadrant === "top-left") {
-    targetPos.x -= randomXOffset;
-    targetPos.y -= randomYOffset;
-  } else if (quadrant === "top-right") {
-    targetPos.x += randomXOffset;
-    targetPos.y -= randomYOffset;
-  } else if (quadrant === "bottom-left") {
-    targetPos.x -= randomXOffset;
-    targetPos.y += randomYOffset;
+    target.x = breakpoints.width / 2 - 40;
+    target.y = 20;
   } else {
-    targetPos.x += randomXOffset;
-    targetPos.y += randomYOffset;
+    const thresholds = targetThresholds[quadrant];
+    target.x = getRandomNumInclusive(thresholds.x[0], thresholds.x[1]);
+    target.y = getRandomNumInclusive(thresholds.y[0], thresholds.y[1]);
   }
-  toBubble.style.left = `${targetPos.x}px`;
-  toBubble.style.top = `${targetPos.y}px`;
+  toBubble.style.left = `${target.x}px`;
+  toBubble.style.top = `${target.y}px`;
   toBubble.style.transform = "none";
+
+  // Connect toBubble and fromBubble with line
+  toRect = toBubble.getBoundingClientRect();
+  const toOffset = toRect.width / 2;
+  const toCenter = {
+    x: toRect.left + toOffset,
+    y: toRect.top + toOffset,
+  };
   line.setAttribute("x1", fromCenter.x.toString());
   line.setAttribute("y1", fromCenter.y.toString());
-  line.setAttribute("x2", (targetPos.x + baseOffsetTo).toString());
-  line.setAttribute("y2", (targetPos.y + baseOffsetTo).toString());
+  line.setAttribute("x2", toCenter.x.toString());
+  line.setAttribute("y2", toCenter.y.toString());
 };
 
-const updateBubblePositions = ({
+const setInitialBubblePositions = ({
   activeBubble,
   breakpoints,
   bubblePositions,
-  quadrantToOffsetCache,
 }: {
   activeBubble: BubbleType;
   bubblePositions: ActiveBubbleStoreType["bubblePositions"];
   breakpoints: Breakpoints;
-  quadrantToOffsetCache: QuadrantToOffsetCache;
 }) => {
   const profileBubble = document.getElementById("profile_bubble");
   if (!profileBubble) return;
@@ -101,65 +109,39 @@ const updateBubblePositions = ({
       line: toBubbleLine,
       breakpoints,
       quadrant: bubblePositions[bubbleType],
-      quadrantToOffsetCache,
     });
   }
+};
+
+const dragLineWithBubble = ({ type }: { type: BubbleType }) => {
+  const bubble = document.getElementById(`${type}_bubble`);
+  const bubbleLine = document.getElementById(`${type}_bubble_line`);
+  if (!bubble || !bubbleLine) return;
+  const bubbleRect = bubble.getBoundingClientRect();
+  const offset = bubbleRect.width / 2;
+  const bubbleCenter = {
+    x: bubbleRect.left + offset,
+    y: bubbleRect.top + offset,
+  };
+  bubbleLine.setAttribute("x2", bubbleCenter.x.toString());
+  bubbleLine.setAttribute("y2", bubbleCenter.y.toString());
 };
 
 export default function InteractiveBubbles() {
   const { track } = useTrackAnalytics();
   const breakpoints = useBreakpoints();
-  const heightStops = breakpoints.height % 50 === 0;
-
+  const { toggleOpen } = useBubbleContentModal();
   const { activeBubble, bubblePositions, setActiveBubble } =
     useActiveBubbleStore();
 
-  const { toggleOpen } = useBubbleContentModal();
-
-  const getRandomOffset = () => {
-    const innerBoundary = PROFILE_BUBBLE_SIZE / 2 + 60;
-    const outerBoundary = PROFILE_BUBBLE_SIZE / 2;
-    return {
-      x: getRandomNumInclusive(
-        innerBoundary,
-        Math.floor(
-          !breakpoints.md ? breakpoints.width / 2 : breakpoints.width / 4
-        ) -
-          outerBoundary -
-          40
-      ),
-      y: getRandomNumInclusive(
-        innerBoundary,
-        Math.floor(breakpoints.height / 2) - outerBoundary + 20
-      ),
-    };
-  };
-
-  const quadrantToOffsetCache: QuadrantToOffsetCache = useMemo(
-    () => ({
-      "top-right": getRandomOffset(),
-      "top-left": getRandomOffset(),
-      "bottom-left": getRandomOffset(),
-      "bottom-right": getRandomOffset(),
-    }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      breakpoints.base,
-      breakpoints.sm,
-      breakpoints.md,
-      breakpoints.lg,
-      heightStops,
-    ]
-  );
-
   useEffect(() => {
-    updateBubblePositions({
+    setInitialBubblePositions({
       activeBubble,
       bubblePositions,
       breakpoints,
-      quadrantToOffsetCache,
     });
-  }, [breakpoints, activeBubble, bubblePositions, quadrantToOffsetCache]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [breakpoints]);
 
   const onBubbleClick = (type: BubbleType) => {
     setActiveBubble(type);
@@ -188,37 +170,14 @@ export default function InteractiveBubbles() {
         <CustomImage src="/profile.png" alt="profile" radius="rounded-full" />
       </GradientBubble>
       {Object.values(BubbleType).map((type) => (
-        <div key={type}>
-          <GradientBubble
-            id={`${type}_bubble`}
-            onClick={() => onBubbleClick(type)}
-            className={cn(
-              "absolute z-99",
-              type === activeBubble ? "scale-105" : "scale-100"
-            )}
-            style={{
-              top: "50%",
-              left: !breakpoints.md ? "50%" : "25%",
-              transform: `translate(${
-                !breakpoints.md ? "-50%" : "-25%"
-              }, -50%)`,
-            }}
-          >
-            <Text size="h1" className="text-secondary capitalize">
-              {type}
-            </Text>
-          </GradientBubble>
-          <svg
-            id={`${type}_bubble_svg`}
-            className="absolute w-full h-full pointer-events-none"
-          >
-            <line
-              id={`${type}_bubble_line`}
-              stroke={COLOR.PRIMARY}
-              strokeWidth="1"
-            />
-          </svg>
-        </div>
+        <DraggableBubble
+          key={type}
+          type={type}
+          onClick={onBubbleClick}
+          activeBubble={activeBubble}
+          breakpoints={breakpoints}
+          onDrag={() => dragLineWithBubble({ type })}
+        />
       ))}
     </div>
   );

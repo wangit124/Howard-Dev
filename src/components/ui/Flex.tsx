@@ -1,18 +1,10 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { HTMLMotionProps, motion } from "framer-motion";
 import React from "react";
 
-const Flex = ({
-  children,
-  id,
-  className,
-  onClick,
-  direction = "row",
-  justify = "start",
-  items = "start",
-  style,
-}: {
+type Props = {
   children?: React.ReactNode;
   id?: string;
   className?: string;
@@ -21,9 +13,22 @@ const Flex = ({
   justify?: "start" | "center" | "end" | "between" | "evenly";
   items?: "start" | "center" | "end";
   style?: React.CSSProperties;
+  motionProps?: HTMLMotionProps<"div">;
+};
+
+const Flex: React.FC<Props> = ({
+  children,
+  id,
+  className,
+  onClick,
+  direction = "row",
+  justify = "start",
+  items = "start",
+  style,
+  motionProps,
 }) => {
   return (
-    <div
+    <motion.div
       id={id}
       className={cn(
         "flex",
@@ -47,9 +52,10 @@ const Flex = ({
       )}
       style={style}
       onClick={onClick}
+      {...(motionProps || {})}
     >
       {children}
-    </div>
+    </motion.div>
   );
 };
 

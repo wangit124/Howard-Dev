@@ -5,16 +5,7 @@ import React from "react";
 import Flex from "./ui/Flex";
 import { cn } from "@/lib/utils";
 
-const GradientBubble = ({
-  children,
-  id,
-  className,
-  onClick,
-  width = DEFAULT_BUBBLE_SIZE,
-  height = DEFAULT_BUBBLE_SIZE,
-  transparent,
-  style,
-}: {
+type Props = {
   children?: React.ReactNode;
   id?: string;
   className?: string;
@@ -23,6 +14,17 @@ const GradientBubble = ({
   height?: number;
   transparent?: boolean;
   style?: React.CSSProperties;
+};
+
+const GradientBubble: React.FC<Props> = ({
+  children,
+  id,
+  className,
+  onClick,
+  width = DEFAULT_BUBBLE_SIZE,
+  height = DEFAULT_BUBBLE_SIZE,
+  transparent,
+  style,
 }) => {
   return (
     <Flex
