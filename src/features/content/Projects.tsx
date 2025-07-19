@@ -42,7 +42,12 @@ const Projects = () => {
                   (project.mobile ? "aspect-[9/16]" : "aspect-[16/9]")
               )}
             >
-              <Image fill src={project.thumbnail} alt={project.name} />
+              <Image
+                unoptimized={project.thumbnail?.endsWith(".gif")}
+                fill
+                src={project.thumbnail}
+                alt={project.name}
+              />
             </div>
             <Flex direction="col" className="p-3">
               <Text size="h3" className="font-bold mt-2">

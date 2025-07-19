@@ -29,6 +29,7 @@ const CustomImage = ({
       style={{ width, height }}
     >
       <Image
+        unoptimized={src?.endsWith(".gif")}
         priority
         src={src}
         alt={alt}
