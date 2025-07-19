@@ -26,6 +26,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} ${interTight.variable} antialiased`}>
         {children}
+        <div id="modal-root" />
       </body>
     </html>
   );

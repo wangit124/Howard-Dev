@@ -1,7 +1,6 @@
 "use client";
 
-import { Button, Flex, Text, Badge } from "@/components";
-import HeadingDivider from "@/components/HeadingDivider";
+import { Button, Flex, Text, Badge, HeadingDivider } from "@/components";
 import { useActiveBubbleStore } from "@/hooks/useActiveBubbleStore";
 import { PERSONAL_EMAIL, PERSONAL_LINKS, PERSONAL_SKILLS } from "@/data";
 import { BubbleType, COLOR } from "@/lib/types";
@@ -13,8 +12,8 @@ const About = () => {
   const goToCareerBubble = () => setActiveBubble(BubbleType.CAREER);
   const goToProjectsBubble = () => setActiveBubble(BubbleType.PROJECTS);
   return (
-    <Flex direction="col" className="flex-1">
-      <Text size="p" className="w-full text-wrap">
+    <Flex direction="col" className="flex-1 w-full">
+      <Text size="p" className="w-full flex-1 text-wrap">
         I&apos;m a{" "}
         <span className="text-primary">fullstack software engineer</span> with{" "}
         <span className="text-primary">5+ years of experience</span> and a
@@ -40,7 +39,7 @@ const About = () => {
           ship products that matter!
         </Text>
       </Text>
-      <Flex justify="between" items="center" className="gap-3 pt-6 pb-5 w-full">
+      <Flex justify="start" items="center" className="gap-3 pt-6 pb-5 w-full flex-1 flex-wrap">
         <Button
           variant="secondary"
           onClick={() => openUrl(PERSONAL_LINKS.LINKEDIN)}

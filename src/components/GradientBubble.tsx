@@ -2,7 +2,7 @@
 
 import { DEFAULT_BUBBLE_SIZE } from "@/lib/constants";
 import React from "react";
-import Flex from "./Flex";
+import Flex from "./ui/Flex";
 import { cn } from "@/lib/utils";
 
 const GradientBubble = ({

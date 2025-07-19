@@ -1,13 +1,15 @@
 "use client";
 
 import CustomImage from "./CustomImage";
-import Flex from "./Flex";
+import Flex from "./ui/Flex";
 import GradientBubble from "./GradientBubble";
-import Text from "./Text";
-import Button from "./Button";
-import Badge from "./Badge";
-import Collapsible from "./Collapsible";
-import Card from "./Card";
+import Text from "./ui/Text";
+import Button from "./ui/Button";
+import Badge from "./ui/Badge";
+import Collapsible from "./ui/Collapsible";
+import Card from "./ui/Card";
+import Modal from "./ui/Modal";
+import HeadingDivider from "./HeadingDivider";
 
 export {
   CustomImage,
@@ -18,4 +20,6 @@ export {
   Badge,
   Collapsible,
   Card,
+  Modal,
+  HeadingDivider,
 };

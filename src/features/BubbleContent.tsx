@@ -1,6 +1,6 @@
 "use client";
 
-import { Flex } from "@/components";
+import { Flex, Modal } from "@/components";
 import { useActiveBubbleStore } from "@/hooks/useActiveBubbleStore";
 import { useBreakpoints } from "@/hooks/useBreakpoints";
 import { DEFAULT_BUBBLE_SIZE } from "@/lib/constants";
@@ -11,26 +11,26 @@ import About from "./content/About";
 import Career from "./content/Career";
 import Projects from "./content/Projects";
 import Stats from "./content/Stats";
+import { useBubbleContentModal } from "@/hooks/useBubbleContentModalStore";
 
 export default function BubbleContent() {
   const { md, width } = useBreakpoints();
   const { activeBubble } = useActiveBubbleStore();
+  const { isOpen, toggleOpen } = useBubbleContentModal();
   useEffect(() => {
     const bubbleContentBg = document.getElementById("bubble_content_bg");
     if (!bubbleContentBg) return;
     bubbleContentBg.style.left = `${width / 2 + DEFAULT_BUBBLE_SIZE / 2}px`;
   }, [width]);
-  if (!md) return null;
-  return (
+  const content = (
     <Flex
       id="bubble_content_bg"
       justify="center"
       items="center"
       className={cn(
-        "absolute",
-        "top-[40px]",
-        "bottom-[30px]",
-        "right-[30px]",
+        md
+          ? "absolute top-[40px] bottom-[30px] right-[30px]"
+          : "h-full overflow-auto flex flex-col justify-center items-center",
         "bg-linear-to-b",
         "from-primary-gradient-start",
         "to-primary-gradient-end",
@@ -39,7 +39,12 @@ export default function BubbleContent() {
         "scrollable"
       )}
     >
-      <Flex className="bg-black w-full h-full rounded-md overflow-auto px-12 py-8">
+      <Flex
+        className={cn(
+          "bg-black w-full h-full rounded-md overflow-auto py-8",
+          md ? "px-12" : "px-8"
+        )}
+      >
         {activeBubble === BubbleType.ABOUT && <About />}
         {activeBubble === BubbleType.CAREER && <Career />}
         {activeBubble === BubbleType.PROJECTS && <Projects />}
@@ -47,4 +52,12 @@ export default function BubbleContent() {
       </Flex>
     </Flex>
   );
+  if (!md) {
+    return (
+      <Modal isOpen={isOpen} toggleOpen={toggleOpen}>
+        {content}
+      </Modal>
+    );
+  }
+  return content;
 }

@@ -6,6 +6,7 @@ import {
   useActiveBubbleStore,
 } from "@/hooks/useActiveBubbleStore";
 import { useBreakpoints } from "@/hooks/useBreakpoints";
+import { useBubbleContentModal } from "@/hooks/useBubbleContentModalStore";
 import { PROFILE_BUBBLE_SIZE } from "@/lib/constants";
 import {
   Breakpoints,
@@ -111,19 +112,23 @@ export default function InteractiveBubbles() {
   const { activeBubble, bubblePositions, setActiveBubble } =
     useActiveBubbleStore();
 
+  const { toggleOpen } = useBubbleContentModal();
+
   const getRandomOffset = () => {
-    const innerBoundary = PROFILE_BUBBLE_SIZE / 2 + 40;
+    const innerBoundary = PROFILE_BUBBLE_SIZE / 2 + 60;
     const outerBoundary = PROFILE_BUBBLE_SIZE / 2;
     return {
       x: getRandomNumInclusive(
         innerBoundary,
         Math.floor(
           !breakpoints.md ? breakpoints.width / 2 : breakpoints.width / 4
-        ) - outerBoundary
+        ) -
+          outerBoundary -
+          40
       ),
       y: getRandomNumInclusive(
         innerBoundary,
-        Math.floor(breakpoints.height / 2) - outerBoundary
+        Math.floor(breakpoints.height / 2) - outerBoundary + 20
       ),
     };
   };
@@ -154,6 +159,13 @@ export default function InteractiveBubbles() {
     });
   }, [breakpoints, activeBubble, bubblePositions, quadrantToOffsetCache]);
 
+  const onBubbleClick = (type: BubbleType) => {
+    setActiveBubble(type);
+    if (!breakpoints.md) {
+      toggleOpen(true);
+    }
+  };
+
   return (
     <div>
       <GradientBubble
@@ -174,7 +186,7 @@ export default function InteractiveBubbles() {
         <div key={type}>
           <GradientBubble
             id={`${type}_bubble`}
-            onClick={() => setActiveBubble(type)}
+            onClick={() => onBubbleClick(type)}
             className={cn(
               "absolute z-99",
               type === activeBubble ? "scale-105" : "scale-100"

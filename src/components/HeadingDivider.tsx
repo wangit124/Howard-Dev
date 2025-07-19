@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import Text from "./Text";
-import Flex from "./Flex";
+import Text from "./ui/Text";
+import Flex from "./ui/Flex";
 
 type Props = {
   text: string;

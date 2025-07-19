@@ -1,7 +1,6 @@
 "use client";
 
-import { Card, Button, Badge, Flex, Text } from "@/components";
-import HeadingDivider from "@/components/HeadingDivider";
+import { Card, Button, Badge, Flex, Text, HeadingDivider } from "@/components";
 import { PROJECTS } from "@/data";
 import { cn, openUrl } from "@/lib/utils";
 import { CodeXml, Play } from "lucide-react";
