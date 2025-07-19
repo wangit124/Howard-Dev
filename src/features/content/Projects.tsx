@@ -51,7 +51,10 @@ const Projects = () => {
               <Flex className="py-4 gap-3">
                 <Button
                   variant="secondary"
-                  onClick={() => openUrl(project.code)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openUrl(project.code);
+                  }}
                 >
                   <CodeXml />
                   <Text className="ml-2 font-bold">Code</Text>
@@ -59,7 +62,10 @@ const Projects = () => {
                 {!!project.video && (
                   <Button
                     variant="primary"
-                    onClick={() => onClickCard(project)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onClickCard(project);
+                    }}
                   >
                     <Play />
                     <Text className="ml-2 font-bold">Demo</Text>
