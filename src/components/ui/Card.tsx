@@ -6,9 +6,12 @@ import React from "react";
 type CardProps = {
   className?: string;
   children?: React.ReactNode;
-};
+} & React.DetailedHTMLProps<
+  React.HTMLAttributes<HTMLDivElement>,
+  HTMLDivElement
+>;
 
-const Card: React.FC<CardProps> = ({ className, children }) => {
+const Card: React.FC<CardProps> = ({ className, children, ...props }) => {
   return (
     <div
       className={cn(
@@ -24,6 +27,7 @@ const Card: React.FC<CardProps> = ({ className, children }) => {
         "hover:scale-102",
         className
       )}
+      {...props}
     >
       <div className="bg-secondary p-2 rounded-md w-full h-full">
         {children}

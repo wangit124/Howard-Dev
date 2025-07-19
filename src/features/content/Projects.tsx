@@ -2,16 +2,33 @@
 
 import { Card, Button, Badge, Flex, Text, HeadingDivider } from "@/components";
 import { PROJECTS } from "@/data";
+import { useBubbleContentModal } from "@/hooks/useBubbleContentModalStore";
+import { useVideoModalStore } from "@/hooks/useVideoModalStore";
 import { cn, openUrl } from "@/lib/utils";
 import { CodeXml, Play } from "lucide-react";
 import Image from "next/image";
 
 const Projects = () => {
+  const { setVideoPath, toggleOpen: toggleVideoModalOpen } =
+    useVideoModalStore();
+  const { toggleOpen: toggleBubbleModalOpen } = useBubbleContentModal();
+
+  const onClickCard = (project: (typeof PROJECTS)[0]) => {
+    if (!project.video) {
+      openUrl(project.code);
+      return;
+    }
+    setVideoPath(project.video);
+    toggleBubbleModalOpen(false);
+    toggleVideoModalOpen(true);
+  };
+
   return (
-    <Flex direction="col" className="w-full flex-1 gap-4">
+    <Flex direction="col" className="w-full flex-1 gap-6">
       {PROJECTS.map((project) => (
         <Card
           key={project.name}
+          onClick={() => onClickCard(project)}
           className="w-full min-w-[200px] md:min-w-[300px]"
         >
           <Flex direction="col">
@@ -40,7 +57,10 @@ const Projects = () => {
                   <Text className="ml-2 font-bold">Code</Text>
                 </Button>
                 {!!project.video && (
-                  <Button variant="primary">
+                  <Button
+                    variant="primary"
+                    onClick={() => onClickCard(project)}
+                  >
                     <Play />
                     <Text className="ml-2 font-bold">Demo</Text>
                   </Button>
