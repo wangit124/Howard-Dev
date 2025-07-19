@@ -1,17 +1,22 @@
 // ABOUT
 export const PERSONAL_SKILLS = [
-  "Typescript",
-  "Python",
   "React.js",
   "React Native",
+  "Next.js",
+  "Typescript",
+  "Node.js",
+  "Python",
   "Javascript",
-  "PostgreSQL",
-  "MySQL",
-  "Ruby",
-  "GraphQL",
   "HTML",
   "CSS",
   "AWS",
+  "GraphQL",
+  "PostgreSQL",
+  "MySQL",
+  "Ruby",
+  "Java",
+  "Swift",
+  "C++",
 ];
 export const PERSONAL_LINKS = {
   LINKEDIN: "https://www.linkedin.com/in/hwangprof",

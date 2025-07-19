@@ -3,6 +3,7 @@
 import VideoModal from "@/components/modals/VideoModal";
 import BubbleContent from "@/features/BubbleContent";
 import { useTrackAnalytics } from "@/hooks/useTrackAnalytics";
+import useUrlActiveBubbleCheck from "@/hooks/useUrlActiveBubbleCheck";
 import dynamic from "next/dynamic";
 import { useEffect } from "react";
 
@@ -14,6 +15,7 @@ const InteractiveBubbles = dynamic(
 );
 
 export default function Home() {
+  useUrlActiveBubbleCheck();
   const { track } = useTrackAnalytics();
   useEffect(() => {
     track({ type: "view" });
