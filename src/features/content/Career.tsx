@@ -1,7 +1,6 @@
 "use client";
 
-import { CustomImage, Text, Flex } from "@/components";
-import Collapsible from "@/components/Collapsible";
+import { Collapsible, CustomImage, Text, Flex } from "@/components";
 import { CAREER_ROLES } from "@/data";
 import { cn } from "@/lib/utils";
 
@@ -13,14 +12,14 @@ const Career = () => {
           <div className="flex flex-col grow items-center min-h-[120px] h-full">
             <div
               className={cn(
-                "grow w-[2px]",
+                "grow w-[1px]",
                 index === 0 ? "bg-secondary" : "bg-primary"
               )}
             />
             <div className="w-[20px] h-[20px] rounded-full bg-gradient-to-b from-primary-gradient-start to-primary-gradient-end" />
             <div
               className={cn(
-                "grow w-[2px]",
+                "grow w-[1px]",
                 index === CAREER_ROLES.length - 1
                   ? "bg-secondary"
                   : "bg-primary"

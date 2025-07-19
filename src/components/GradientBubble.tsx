@@ -37,6 +37,8 @@ const GradientBubble = ({
           ? "from-primary-gradient-start/20"
           : "from-primary-gradient-start",
         transparent ? "to-primary-gradient-end/20" : "to-primary-gradient-end",
+        !onClick ? "cursor-auto" : "cursor-pointer",
+        !onClick ? "hover:scale-100" : "hover:scale-108",
         className ? ` ${className}` : ""
       )}
       style={{ width, height, ...(style || {}) }}

@@ -1,11 +1,62 @@
 "use client";
 
-import { Button, Flex, Text } from "@/components";
+import { Card, Button, Badge, Flex, Text } from "@/components";
+import HeadingDivider from "@/components/HeadingDivider";
+import { PROJECTS } from "@/data";
+import { cn, openUrl } from "@/lib/utils";
+import { CodeXml, Play } from "lucide-react";
+import Image from "next/image";
 
 const Projects = () => {
   return (
-    <Flex direction="col" className="flex-1">
-      
+    <Flex direction="col" className="w-full flex-1 gap-4">
+      {PROJECTS.map((project) => (
+        <Card
+          key={project.name}
+          className="w-full min-w-[200px] md:min-w-[300px]"
+        >
+          <Flex direction="col">
+            <div
+              className={cn(
+                "relative w-full h-[auto]",
+                project.aspectRatio ||
+                  (project.mobile ? "aspect-[9/16]" : "aspect-[16/9]")
+              )}
+            >
+              <Image fill src={project.thumbnail} alt={project.name} />
+            </div>
+            <Flex direction="col" className="p-3">
+              <Text size="h3" className="font-bold mt-2">
+                {project.name}
+              </Text>
+              <Text size="p" className="mt-2">
+                {project.description}
+              </Text>
+              <Flex className="py-4 gap-3">
+                <Button
+                  variant="secondary"
+                  onClick={() => openUrl(project.code)}
+                >
+                  <CodeXml />
+                  <Text className="ml-2 font-bold">Code</Text>
+                </Button>
+                {!!project.video && (
+                  <Button variant="primary">
+                    <Play />
+                    <Text className="ml-2 font-bold">Demo</Text>
+                  </Button>
+                )}
+              </Flex>
+              <HeadingDivider text="Skills" />
+              <Flex className="flex-wrap pt-2 gap-2">
+                {project.skills.map((skill) => (
+                  <Badge key={skill}>{skill}</Badge>
+                ))}
+              </Flex>
+            </Flex>
+          </Flex>
+        </Card>
+      ))}
     </Flex>
   );
 };

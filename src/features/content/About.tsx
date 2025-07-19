@@ -1,7 +1,6 @@
 "use client";
 
-import { Button, Flex, Text } from "@/components";
-import Badge from "@/components/Badge";
+import { Button, Flex, Text, Badge } from "@/components";
 import HeadingDivider from "@/components/HeadingDivider";
 import { useActiveBubbleStore } from "@/hooks/useActiveBubbleStore";
 import { PERSONAL_EMAIL, PERSONAL_LINKS, PERSONAL_SKILLS } from "@/data";

@@ -86,3 +86,149 @@ export const CAREER_ROLES = [
     ],
   },
 ];
+
+// PROJECTS
+export const PROJECTS = [
+  {
+    thumbnail: "/projects/thumbnails/genui.gif",
+    name: "Gen UI - Design to Code",
+    description:
+      "Developer companion app that transform your figma designs into production-ready UI code with just a few clicks!",
+    code: "https://github.com/wangit124/GenUI",
+    video: "/projects/videos/genui.mp4",
+    aspectRatio: "aspect-[15/8]",
+    skills: [
+      "Next.js",
+      "Node.js",
+      "Typescript",
+      "TailwindCSS",
+      "RadixUI",
+      "Zustand",
+      "Supabase",
+      "Figma",
+      "Claude",
+    ],
+  },
+  {
+    thumbnail: "/projects/thumbnails/ieeeqp.gif",
+    name: "IEEE Quarterly Projects Website",
+    description:
+      "Home for IEEE Quarterly Projects Competitions, where 2k+ students apply quarterly and compete to make the best hardware and software projects! Winners get internship opportunities at sponsor companies. Hosted quarterly in September, January, and March!",
+    code: "https://github.com/wangit124/IEEE-Quarterly-Projects",
+    video: "/projects/videos/ieeeqp.mp4",
+    skills: ["Django", "Python", "HTML", "Javascript", "CSS", "PostgreSQL"],
+  },
+  {
+    thumbnail: "/projects/thumbnails/easytour.png",
+    name: "Easy Tour - Mood-based Trip Planner",
+    description:
+      "LA Hacks 2019 Submission - Trip planner that creates tour routes based on your mood. Pick a color mood for your next trip and the app will recommend places based on that mood. Created using Node.js, HTML, CSS, Javascript.",
+    code: "https://github.com/wangit124/Easy-Tour",
+    aspectRatio: "aspect-[16/10]",
+    skills: ["Node.js", "HTML", "Javascript", "CSS"],
+  },
+  {
+    thumbnail: "/projects/thumbnails/devbot.png",
+    name: "DevBot - Voice Activated Coding Assistant",
+    description:
+      "SD Hacks 2022 Submission - An alexa-integrated developer's assistant that generates boilerplate code on your voice command! I created this server-side rendered app from scratch over a 2 day hackathon using Node.js, HTML, CSS, Javascript, Amazon Alexa Skills, Jovo Framework and Firebase.",
+    code: "https://github.com/wangit124/DevBot-Coding-Assistant",
+    skills: [
+      "Node.js",
+      "Alexa Skills Kit",
+      "Firebase",
+      "HTML",
+      "CSS",
+      "Javascript",
+    ],
+  },
+  {
+    thumbnail: "/projects/thumbnails/hackeye.gif",
+    name: "Hackeye - Social app for Hardware Engineers",
+    description:
+      "The social media app for Hardware developers that points you to the nearest hardware-inspired projects for collaboration! I built this iOS app from scratch using Swift, Objective C and SwiftUI.",
+    code: "https://github.com/wangit124/Hackeye-Mobile",
+    video: "/projects/videos/hackeye.mp4",
+    mobile: true,
+    skills: ["Swift", 'SwiftUI, "Objective-C'],
+  },
+  {
+    thumbnail: "/projects/thumbnails/pipe.png",
+    name: "Pi for Parkinsons",
+    description:
+      "Introducing PiPE, an assistive anti-tremor spoon for patients of Parkinson's disease.",
+    code: "https://github.com/wangit124/Pi-for-Parkinsons",
+    aspectRatio: "aspect-[16/11]",
+    skills: ["Python", "Javascript", "HTML", "CSS", "PHP"],
+  },
+  {
+    thumbnail: "/projects/thumbnails/hackernews.gif",
+    name: "Hackernews",
+    description:
+      "Built a live Hackernews newsfeed with user authentication, and voting features created with React-native and GraphQL. Runs on Android and iOS mobile devices!",
+    code: "https://github.com/wangit124/Hackernews",
+    video: "/projects/videos/hackernews.mp4",
+    mobile: true,
+    skills: ["Swift", 'SwiftUI, "Objective-C'],
+  },
+  {
+    thumbnail: "/projects/thumbnails/foodie.gif",
+    name: "Foodie",
+    description:
+      "Awarded Best Design at 2020 CodePath iOS Development Competition. The ultimate dating app for foodies! Get matched with fellow foodies and meetup to bond over great food! I led a team of 4 to build the app from scratch using Swift and Objective C.",
+    code: "https://github.com/Tinder-for-Boba/Foodie-Social-App",
+    mobile: true,
+    skills: ["Swift", "Objective-C"],
+  },
+  {
+    thumbnail: "/projects/thumbnails/twitterclone.gif",
+    name: "Twitter Clone",
+    description: "Twitter app to view, compose, favorite, and retweet tweets.",
+    code: "https://github.com/wangit124/Twitter-Clone",
+    mobile: true,
+    aspectRatio: "aspect-[9/18]",
+    skills: ["Swift", "Objective-C"],
+  },
+  {
+    thumbnail: "/projects/thumbnails/flixclone.gif",
+    name: "Flix Clone",
+    description: "Flixster Movie app for all your favorite films!",
+    code: "https://github.com/wangit124/Flix-Clone",
+    mobile: true,
+    aspectRatio: "aspect-[9/10]",
+    skills: ["Swift", "Objective-C"],
+  },
+  {
+    thumbnail: "/projects/thumbnails/parstagram.gif",
+    name: "Instagram Clone",
+    description: "An Instagram-like app for all your favorite photos!",
+    code: "https://github.com/wangit124/Parstagram",
+    mobile: true,
+    skills: ["Swift", "Objective-C"],
+  },
+  {
+    thumbnail: "/projects/thumbnails/tipcalculator.gif",
+    name: "Tip Calculator",
+    description: "Your very own handy tip calculator, called Quick Tip!",
+    code: "https://github.com/wangit124/Tip-Calculator",
+    mobile: true,
+    skills: ["Swift", "Objective-C"],
+  },
+  {
+    thumbnail: "/projects/thumbnails/smartfin.png",
+    name: "Smartfin - Embedded Surfboard Fin",
+    description:
+      "A hardware-embedded surfboard fin that helps oceanographers collect data on the behaviour of waves.",
+    code: "https://github.com/wangit124/Smartfin",
+    skills: ["Python"],
+  },
+  {
+    thumbnail: "/projects/thumbnails/connect4.png",
+    name: "Connect 4",
+    description:
+      "Full stack connect4 game with Java/JavaFx front end GUI (JDK 8 Required)",
+    code: "https://github.com/wangit124/Connect-4",
+    aspectRatio: "aspect-[16/11]",
+    skills: ["Java"],
+  },
+];

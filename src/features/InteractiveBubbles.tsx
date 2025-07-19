@@ -6,7 +6,7 @@ import {
   useActiveBubbleStore,
 } from "@/hooks/useActiveBubbleStore";
 import { useBreakpoints } from "@/hooks/useBreakpoints";
-import { DEFAULT_BUBBLE_SIZE, PROFILE_BUBBLE_SIZE } from "@/lib/constants";
+import { PROFILE_BUBBLE_SIZE } from "@/lib/constants";
 import {
   Breakpoints,
   BubbleType,
@@ -14,7 +14,7 @@ import {
   QuadrantToOffsetCache,
   QuadrantTypes,
 } from "@/lib/types";
-import { getRandomNumInclusive } from "@/lib/utils";
+import { cn, getRandomNumInclusive } from "@/lib/utils";
 import { useEffect, useMemo } from "react";
 
 const connectBubblesWithLine = ({
@@ -45,8 +45,8 @@ const connectBubblesWithLine = ({
   const randomXOffset = quadrantToOffsetCache[quadrant]?.x;
   const randomYOffset = quadrantToOffsetCache[quadrant]?.y;
   const targetPos = {
-    x: fromCenter.x - baseOffsetFrom,
-    y: fromCenter.y - baseOffsetFrom,
+    x: fromCenter.x - baseOffsetFrom / 2,
+    y: fromCenter.y - baseOffsetFrom / 2,
   };
   if (isActiveBubble && breakpoints.md) {
     targetPos.x = breakpoints.width / 2 - 40;
@@ -111,20 +111,22 @@ export default function InteractiveBubbles() {
   const { activeBubble, bubblePositions, setActiveBubble } =
     useActiveBubbleStore();
 
-  const getRandomOffset = () => ({
-    x: getRandomNumInclusive(
-      PROFILE_BUBBLE_SIZE / 2 + 30,
-      Math.floor(
-        !breakpoints.md ? breakpoints.width / 2 : breakpoints.width / 4
-      ) -
-        (DEFAULT_BUBBLE_SIZE / 2 + (breakpoints.md ? 14 : 30))
-    ),
-    y: getRandomNumInclusive(
-      PROFILE_BUBBLE_SIZE / 2 + 30,
-      Math.floor(breakpoints.height / 2) -
-        (DEFAULT_BUBBLE_SIZE / 2 + (breakpoints.md ? 14 : 30))
-    ),
-  });
+  const getRandomOffset = () => {
+    const innerBoundary = PROFILE_BUBBLE_SIZE / 2 + 40;
+    const outerBoundary = PROFILE_BUBBLE_SIZE / 2;
+    return {
+      x: getRandomNumInclusive(
+        innerBoundary,
+        Math.floor(
+          !breakpoints.md ? breakpoints.width / 2 : breakpoints.width / 4
+        ) - outerBoundary
+      ),
+      y: getRandomNumInclusive(
+        innerBoundary,
+        Math.floor(breakpoints.height / 2) - outerBoundary
+      ),
+    };
+  };
 
   const quadrantToOffsetCache: QuadrantToOffsetCache = useMemo(
     () => ({
@@ -173,7 +175,10 @@ export default function InteractiveBubbles() {
           <GradientBubble
             id={`${type}_bubble`}
             onClick={() => setActiveBubble(type)}
-            className="absolute z-99"
+            className={cn(
+              "absolute z-99",
+              type === activeBubble ? "scale-105" : "scale-100"
+            )}
             style={{
               top: "50%",
               left: !breakpoints.md ? "50%" : "25%",
@@ -190,7 +195,11 @@ export default function InteractiveBubbles() {
             id={`${type}_bubble_svg`}
             className="absolute w-full h-full pointer-events-none"
           >
-            <line id={`${type}_bubble_line`} stroke={COLOR.PRIMARY} strokeWidth="1" />
+            <line
+              id={`${type}_bubble_line`}
+              stroke={COLOR.PRIMARY}
+              strokeWidth="1"
+            />
           </svg>
         </div>
       ))}

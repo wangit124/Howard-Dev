@@ -15,8 +15,8 @@ const CustomImage = ({
   src: string;
   alt: string;
   radius?: string;
-  width?: number;
-  height?: number;
+  width?: number | string;
+  height?: number | string;
 }) => {
   return (
     <div
@@ -24,7 +24,7 @@ const CustomImage = ({
         "relative",
         radius === "rounded-full" ? "rounded-full" : radius,
         "overflow-hidden",
-        "flex-shrink-0",
+        "flex-shrink-0"
       )}
       style={{ width, height }}
     >
