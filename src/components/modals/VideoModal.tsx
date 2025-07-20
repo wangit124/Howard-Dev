@@ -28,7 +28,7 @@ export default function VideoModal() {
           justify="center"
           className={"bg-secondary w-full h-full rounded-md overflow-auto py-6"}
         >
-          <VideoPlayer src={videoPath} />
+          <VideoPlayer src={videoPath} autoPlay />
         </Flex>
       </Flex>
     </Modal>

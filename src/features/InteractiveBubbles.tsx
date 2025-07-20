@@ -1,18 +1,14 @@
 "use client";
 
 import { GradientBubble, CustomImage } from "@/components";
-import {
-  ActiveBubbleStoreType,
-  useActiveBubbleStore,
-} from "@/hooks/useActiveBubbleStore";
+import { useActiveBubbleStore } from "@/hooks/useActiveBubbleStore";
 import { useBreakpoints } from "@/hooks/useBreakpoints";
 import { useBubbleContentModal } from "@/hooks/useBubbleContentModalStore";
 import { useTrackAnalytics } from "@/hooks/useTrackAnalytics";
-import { PROFILE_BUBBLE_SIZE } from "@/lib/constants";
+import { DEFAULT_BUBBLE_SIZE, PROFILE_BUBBLE_SIZE } from "@/lib/constants";
 import { Breakpoints, BubbleType, QuadrantTypes } from "@/lib/types";
 import { useEffect } from "react";
 import DraggableBubble from "@/components/DraggableBubble";
-import { getRandomNumInclusive } from "@/lib/utils";
 
 const connectBubblesWithLine = ({
   isActiveBubble,
@@ -36,48 +32,56 @@ const connectBubblesWithLine = ({
     x: fromRect.left + fromOffset,
     y: fromRect.top + fromOffset,
   };
-  let toRect = toBubble.getBoundingClientRect();
+  const toRectWidth = DEFAULT_BUBBLE_SIZE;
   const xRightBound = breakpoints.md
     ? breakpoints.width / 2
     : breakpoints.width;
   const targetThresholds: Record<QuadrantTypes, { x: number[]; y: number[] }> =
     {
       "top-left": {
-        x: [toRect.width, fromRect.left - toRect.width],
-        y: [30, fromRect.top - toRect.height - 30],
+        x: [toRectWidth, fromRect.left - toRectWidth / 2],
+        y: [30, fromRect.top - toRectWidth - 30],
       },
       "top-right": {
-        x: [fromRect.right, xRightBound - toRect.width - 40],
-        y: [30, fromRect.top - toRect.height - 30],
+        x: [fromRect.right, xRightBound - toRectWidth - 40],
+        y: [30, fromRect.top - toRectWidth - 30],
       },
       "bottom-left": {
-        x: [toRect.width, fromRect.left - toRect.width],
-        y: [fromRect.bottom, breakpoints.height - toRect.height - 30],
+        x: [toRectWidth, fromRect.left - toRectWidth / 2],
+        y: [fromRect.bottom, breakpoints.height - toRectWidth - 30],
       },
       "bottom-right": {
-        x: [fromRect.right, xRightBound - toRect.width - 40],
-        y: [fromRect.bottom, breakpoints.height - toRect.height - 30],
+        x: [fromRect.right, xRightBound - toRectWidth - 40],
+        y: [fromRect.bottom, breakpoints.height - toRectWidth],
       },
     };
   const target = { x: fromCenter.x, y: fromCenter.y };
+  const thresholds = targetThresholds[quadrant];
   if (isActiveBubble && breakpoints.md) {
     target.x = breakpoints.width / 2 - 40;
     target.y = 20;
-  } else {
-    const thresholds = targetThresholds[quadrant];
-    target.x = getRandomNumInclusive(thresholds.x[0], thresholds.x[1]);
-    target.y = getRandomNumInclusive(thresholds.y[0], thresholds.y[1]);
+  } else if (quadrant === "top-left") {
+    target.x = Math.min(thresholds.x[0], thresholds.x[1]);
+    target.y = Math.min(thresholds.y[0] + 40, thresholds.y[1]);
+  } else if (quadrant === "top-right") {
+    target.x = Math.min(thresholds.x[0] + 16, thresholds.x[1]);
+    target.y = Math.min(thresholds.y[0] + 8, thresholds.y[1]);
+  } else if (quadrant === "bottom-left") {
+    target.x = Math.min(thresholds.x[0], thresholds.x[1]);
+    target.y = Math.min(thresholds.y[0], thresholds.y[1]);
+  } else if (quadrant === "bottom-right") {
+    target.x = Math.min(thresholds.x[0] + 20, thresholds.x[1]);
+    target.y = Math.min(thresholds.y[0] + 40, thresholds.y[1]);
   }
   toBubble.style.left = `${target.x}px`;
   toBubble.style.top = `${target.y}px`;
   toBubble.style.transform = "none";
 
   // Connect toBubble and fromBubble with line
-  toRect = toBubble.getBoundingClientRect();
-  const toOffset = toRect.width / 2;
+  const toOffset = toRectWidth / 2;
   const toCenter = {
-    x: toRect.left + toOffset,
-    y: toRect.top + toOffset,
+    x: target.x + toOffset,
+    y: target.y + toOffset,
   };
   line.setAttribute("x1", fromCenter.x.toString());
   line.setAttribute("y1", fromCenter.y.toString());
@@ -85,15 +89,8 @@ const connectBubblesWithLine = ({
   line.setAttribute("y2", toCenter.y.toString());
 };
 
-const setInitialBubblePositions = ({
-  activeBubble,
-  breakpoints,
-  bubblePositions,
-}: {
-  activeBubble: BubbleType;
-  bubblePositions: ActiveBubbleStoreType["bubblePositions"];
-  breakpoints: Breakpoints;
-}) => {
+const setInitialBubblePositions = (breakpoints: Breakpoints) => {
+  const { activeBubble, bubblePositions } = useActiveBubbleStore.getState();
   const profileBubble = document.getElementById("profile_bubble");
   if (!profileBubble) return;
   const bubbles = Object.values(BubbleType);
@@ -113,7 +110,7 @@ const setInitialBubblePositions = ({
   }
 };
 
-const dragLineWithBubble = ({ type }: { type: BubbleType }) => {
+const dragLineWithBubble = (type: BubbleType) => {
   const bubble = document.getElementById(`${type}_bubble`);
   const bubbleLine = document.getElementById(`${type}_bubble_line`);
   if (!bubble || !bubbleLine) return;
@@ -131,23 +128,16 @@ export default function InteractiveBubbles() {
   const { track } = useTrackAnalytics();
   const breakpoints = useBreakpoints();
   const { toggleOpen } = useBubbleContentModal();
-  const { activeBubble, bubblePositions, setActiveBubble } =
-    useActiveBubbleStore();
+  const { activeBubble, setActiveBubble } = useActiveBubbleStore();
 
   useEffect(() => {
-    setInitialBubblePositions({
-      activeBubble,
-      bubblePositions,
-      breakpoints,
-    });
+    setInitialBubblePositions(breakpoints);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [breakpoints]);
+  }, [breakpoints, activeBubble]);
 
   const onBubbleClick = (type: BubbleType) => {
     setActiveBubble(type);
-    if (!breakpoints.md) {
-      toggleOpen(true);
-    }
+    if (!breakpoints.md) toggleOpen(true);
     track({ type: "click", entity: "bubble", item: type });
   };
 
@@ -176,7 +166,7 @@ export default function InteractiveBubbles() {
           onClick={onBubbleClick}
           activeBubble={activeBubble}
           breakpoints={breakpoints}
-          onDrag={() => dragLineWithBubble({ type })}
+          onDrag={() => dragLineWithBubble(type)}
         />
       ))}
     </div>

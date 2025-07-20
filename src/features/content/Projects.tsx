@@ -43,7 +43,9 @@ const Projects = () => {
               )}
             >
               <Image
+                priority
                 unoptimized={project.thumbnail?.endsWith(".gif")}
+                sizes="100%"
                 fill
                 src={project.thumbnail}
                 alt={project.name}
