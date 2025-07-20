@@ -24,20 +24,20 @@ const About = () => {
     track({ type: "click", entity: "about", item: "projects_bubble" });
   };
   const onClickLinkedIn = () => {
-    openUrl(PERSONAL_LINKS.LINKEDIN);
     track({ type: "click", entity: "about", item: "linkedin_button" });
+    openUrl(PERSONAL_LINKS.LINKEDIN);
   };
   const onClickGithub = () => {
-    openUrl(PERSONAL_LINKS.GITHUB);
     track({ type: "click", entity: "about", item: "github_button" });
+    openUrl(PERSONAL_LINKS.GITHUB);
   };
   const onClickEmail = () => {
-    openUrl(`mailto:${PERSONAL_EMAIL}`);
     track({ type: "click", entity: "about", item: "email_button" });
+    openUrl(`mailto:${PERSONAL_EMAIL}`);
   };
   const onClickResume = () => {
-    router.push("/career/howard_wang_resume.pdf");
     track({ type: "click", entity: "about", item: "resume_button" });
+    router.push("/career/howard_wang_resume.pdf");
   };
   return (
     <Flex direction="col" className="flex-1 w-full">
@@ -45,8 +45,9 @@ const About = () => {
         I&apos;m a{" "}
         <span className="text-primary">fullstack software engineer</span> with{" "}
         <span className="text-primary">5+ years of experience</span> and a
-        strong frontend background. I&apos;ve led projects in all kinds of
-        organizations from building 0 {"=>"} 1 products as a{" "}
+        strong frontend background as well as backend architect experience.
+        I&apos;ve led projects in all kinds of organizations from building 0{" "}
+        {"=>"} 1 products as a{" "}
         <Text link className="text-primary" onClick={goToCareerBubble}>
           Co-Founder & Lead Engineer at Vibely
         </Text>{" "}

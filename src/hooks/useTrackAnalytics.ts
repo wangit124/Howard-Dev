@@ -5,12 +5,13 @@ export const useTrackAnalytics = () => {
     try {
       let xUserId = localStorage.getItem("x-user-id");
       if (!xUserId) {
-        localStorage.setItem("x-user-id", crypto.randomUUID());
-        xUserId = localStorage.getItem("x-user-id");
+        xUserId = crypto.randomUUID();
+        localStorage.setItem("x-user-id", xUserId);
       }
+      if (!xUserId) return;
       await fetch("/api/analytics", {
         method: "POST",
-        headers: xUserId ? { "x-user-id": xUserId } : undefined,
+        headers: { "x-user-id": xUserId },
         body: JSON.stringify(data),
       });
     } catch (error) {
