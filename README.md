@@ -1,6 +1,6 @@
 # Howard Dev
 
-My personal porfolio website with About, Career, Projects, and Stats - a mini analytics click / view tracking dashboard service I built with Next.js API Server & Redis Upstash. I built all the UI components from scratch with regular CSS and implemented complex animations with Framer Motion. Check out the draggable bubbles!
+My personal porfolio website (designed myself in Figma) with About, Career, Projects, and Stats - a mini analytics click / view tracking dashboard service I built with Next.js API Server & Redis Upstash. I built all the UI components from scratch with regular CSS and implemented complex animations with Framer Motion. Check out the draggable bubbles!
 
 ## 💻 Live Demo
 https://howardwang.dev
@@ -21,6 +21,9 @@ https://github.com/user-attachments/assets/19e4108f-6497-40ef-b334-3031ef780192
 
 ### Website Click / View Stats Dashboard
 <img width="1490" height="743" alt="stats" src="https://github.com/user-attachments/assets/f4c1a739-23a9-4c55-a3ff-6a93c7dfede1" />
+
+## 🧑🏻‍🎨 Figma Mocks
+<img width="1264" height="621" alt="figma" src="https://github.com/user-attachments/assets/7c4b107d-b837-4790-b274-a7a3c6aaca17" />
 
 ## 💻 Tech Stack
 - `Next.js` - Frontend
