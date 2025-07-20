@@ -166,7 +166,7 @@ export const PROJECTS = [
     code: "https://github.com/wangit124/Hackeye-Mobile",
     video: "/projects/videos/hackeye.mp4",
     mobile: true,
-    skills: ["Swift", 'SwiftUI, "Objective-C'],
+    skills: ["Swift", "SwiftUI", "Objective-C"],
   },
   {
     thumbnail: "/projects/thumbnails/pipe.png",
@@ -185,7 +185,7 @@ export const PROJECTS = [
     code: "https://github.com/wangit124/Hackernews",
     video: "/projects/videos/hackernews.mp4",
     mobile: true,
-    skills: ["Swift", 'SwiftUI, "Objective-C'],
+    skills: ["Swift", "SwiftUI", "Objective-C"],
   },
   {
     thumbnail: "/projects/thumbnails/foodie.gif",
