@@ -1,5 +1,6 @@
 "use client";
 
+import { useBreakpoints } from "@/hooks/useBreakpoints";
 import { cn } from "@/lib/utils";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import React, { useState } from "react";
@@ -19,6 +20,7 @@ const Collapsible: React.FC<CollapsibleProps> = ({
   hiddenContent,
   onClick,
 }) => {
+  const { md } = useBreakpoints();
   const [collapsed, setCollapsed] = useState(!defaultExpanded);
   return (
     <div
@@ -47,7 +49,9 @@ const Collapsible: React.FC<CollapsibleProps> = ({
             {collapsed ? <ChevronDown /> : <ChevronUp />}
           </div>
         </div>
-        {!collapsed && <div className="p-4">{hiddenContent}</div>}
+        {!collapsed && (
+          <div className={cn(md ? "p-4" : "p-2")}>{hiddenContent}</div>
+        )}
       </div>
     </div>
   );

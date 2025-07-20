@@ -4,12 +4,14 @@ import { Button, Flex, Text, Badge, HeadingDivider } from "@/components";
 import { useActiveBubbleStore } from "@/hooks/useActiveBubbleStore";
 import { PERSONAL_EMAIL, PERSONAL_LINKS, PERSONAL_SKILLS } from "@/data";
 import { BubbleType, COLOR } from "@/lib/types";
-import { openUrl } from "@/lib/utils";
+import { cn, openUrl } from "@/lib/utils";
 import { FileIcon, Github, GraduationCap, Linkedin, Mail } from "lucide-react";
 import { useTrackAnalytics } from "@/hooks/useTrackAnalytics";
+import { useBreakpoints } from "@/hooks/useBreakpoints";
 
 const About = () => {
   const { track } = useTrackAnalytics();
+  const { md } = useBreakpoints();
   const { setActiveBubble } = useActiveBubbleStore();
   const goToCareerBubble = () => {
     setActiveBubble(BubbleType.CAREER);
@@ -65,7 +67,10 @@ const About = () => {
       <Flex
         justify="start"
         items="center"
-        className="gap-3 pt-6 pb-5 w-full flex-1 flex-wrap"
+        className={cn(
+          "gap-3 pt-6 pb-5 w-full flex-1 flex-wrap",
+          !md ? "grid grid-cols-2" : ""
+        )}
       >
         <Button variant="secondary" onClick={onClickLinkedIn}>
           <Linkedin size="20px" color={COLOR.PRIMARY} />
@@ -92,7 +97,12 @@ const About = () => {
       </Flex>
       <HeadingDivider text="Education" />
       <Flex items="center" className="pt-1">
-        <GraduationCap size={60} strokeWidth={1} color={COLOR.PRIMARY} />
+        <GraduationCap
+          size={60}
+          strokeWidth={1}
+          color={COLOR.PRIMARY}
+          className="flex-shrink-0"
+        />
         <Flex direction="col" className="ml-3">
           <Text size="base" className="font-bold">
             University of California, San Diego

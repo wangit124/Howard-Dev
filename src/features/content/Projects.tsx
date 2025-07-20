@@ -2,6 +2,7 @@
 
 import { Card, Button, Badge, Flex, Text, HeadingDivider } from "@/components";
 import { PROJECTS } from "@/data";
+import { useBreakpoints } from "@/hooks/useBreakpoints";
 import { useBubbleContentModal } from "@/hooks/useBubbleContentModalStore";
 import { useTrackAnalytics } from "@/hooks/useTrackAnalytics";
 import { useVideoModalStore } from "@/hooks/useVideoModalStore";
@@ -10,6 +11,7 @@ import { CodeXml, Play } from "lucide-react";
 import Image from "next/image";
 
 const Projects = () => {
+  const { md } = useBreakpoints();
   const { track } = useTrackAnalytics();
   const { setVideoPath, toggleOpen: toggleVideoModalOpen } =
     useVideoModalStore();
@@ -51,14 +53,14 @@ const Projects = () => {
                 alt={project.name}
               />
             </div>
-            <Flex direction="col" className="p-3">
+            <Flex direction="col" className={cn(md ? "p-3" : "p-2")}>
               <Text size="h3" className="font-bold mt-2">
                 {project.name}
               </Text>
               <Text size="p" className="mt-2">
                 {project.description}
               </Text>
-              <Flex className="py-4 gap-3">
+              <Flex className="py-4 gap-3 flex-wrap">
                 <Button
                   variant="secondary"
                   onClick={(e) => {

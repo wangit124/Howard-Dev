@@ -2,8 +2,10 @@
 
 import { Collapsible, Flex, Text } from "@/components";
 import { DataTable } from "@/components/ui/DataTable";
+import { useBreakpoints } from "@/hooks/useBreakpoints";
 import { useGetAnalytics } from "@/hooks/useGetAnalytics";
 import { ClickDataColumns, ViewDataColumns } from "@/lib/types";
+import { cn } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { Loader2Icon } from "lucide-react";
 import { useMemo } from "react";
@@ -35,6 +37,7 @@ export const clicksColumns: ColumnDef<ClickDataColumns>[] = [
 ];
 
 const Stats = () => {
+  const { md } = useBreakpoints();
   const { analyticsSummary, loading } = useGetAnalytics();
   const viewData: ViewDataColumns[] = useMemo(
     () => [
@@ -66,7 +69,7 @@ const Stats = () => {
         defaultExpanded
         className="w-full my-2"
         headerContent={
-          <Flex items="center" className="p-4 flex-1">
+          <Flex items="center" className={cn("flex-1", md ? "p-4" : "p-2")}>
             <Text size="h3" className="font-bold">
               Views
             </Text>
@@ -91,7 +94,7 @@ const Stats = () => {
         defaultExpanded
         className="w-full my-2"
         headerContent={
-          <Flex items="center" className="p-4 flex-1">
+          <Flex items="center" className={cn("flex-1", md ? "p-4" : "p-2")}>
             <Text size="h3" className="font-bold">
               Clicks
             </Text>

@@ -61,7 +61,7 @@ export default function BubbleContent() {
     <Flex
       className={cn(
         "bg-black w-full h-full rounded-md overflow-auto py-8",
-        md ? "px-12" : "px-8"
+        md ? "px-12" : "px-4"
       )}
     >
       {activeBubble === BubbleType.ABOUT && <About />}

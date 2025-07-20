@@ -29,7 +29,7 @@ const Card: React.FC<CardProps> = ({ className, children, ...props }) => {
       )}
       {...props}
     >
-      <div className="bg-secondary p-2 rounded-md w-full h-full">
+      <div className="bg-secondary p-2 rounded-md w-full h-full overflow-auto">
         {children}
       </div>
     </div>

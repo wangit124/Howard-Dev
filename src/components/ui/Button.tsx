@@ -35,7 +35,7 @@ const Button: React.FC<
       {variant === "primary" ? (
         children
       ) : (
-        <div className="bg-secondary py-3 px-5 rounded-full flex items-center">
+        <div className="bg-secondary py-3 px-5 rounded-full w-full flex items-center justify-center">
           {children}
         </div>
       )}
