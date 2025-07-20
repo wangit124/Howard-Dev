@@ -23,8 +23,8 @@ https://github.com/user-attachments/assets/19e4108f-6497-40ef-b334-3031ef780192
 <img width="1490" height="743" alt="stats" src="https://github.com/user-attachments/assets/f4c1a739-23a9-4c55-a3ff-6a93c7dfede1" />
 
 ## 💻 Tech Stack
-`Next.js` - Frontend
-`CSS & Tailwind` - Created my own UI components and color theme
-`Framer Motion` - Complex Animations
-`Zustand` - State Management
-`Redis Upstash` - Analytics click / view tracking storage
+- `Next.js` - Frontend
+- `CSS & Tailwind` - Created my own UI components and color theme
+- `Framer Motion` - Complex Animations
+- `Zustand` - State Management
+- `Redis Upstash` - Analytics click / view tracking storage
