@@ -8,10 +8,12 @@ import { cn, openUrl } from "@/lib/utils";
 import { FileIcon, Github, GraduationCap, Linkedin, Mail } from "lucide-react";
 import { useTrackAnalytics } from "@/hooks/useTrackAnalytics";
 import { useBreakpoints } from "@/hooks/useBreakpoints";
+import { useRouter } from "next/navigation";
 
 const About = () => {
   const { track } = useTrackAnalytics();
   const { md } = useBreakpoints();
+  const router = useRouter();
   const { setActiveBubble } = useActiveBubbleStore();
   const goToCareerBubble = () => {
     setActiveBubble(BubbleType.CAREER);
@@ -34,6 +36,7 @@ const About = () => {
     track({ type: "click", entity: "about", item: "email_button" });
   };
   const onClickResume = () => {
+    router.push("/career/howard_wang_resume.pdf");
     track({ type: "click", entity: "about", item: "resume_button" });
   };
   return (
