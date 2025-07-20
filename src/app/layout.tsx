@@ -13,8 +13,8 @@ const interTight = Inter_Tight({
 });
 
 export const metadata: Metadata = {
-  title: "howard.dev",
-  description: "Howard Wang's Personal Developer Porfolio",
+  title: "Howard Dev Portfolio",
+  description: "Howard Wang's Personal Porfolio Website",
 };
 
 export default function RootLayout({
