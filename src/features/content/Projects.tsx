@@ -33,7 +33,7 @@ const Projects = () => {
       {PROJECTS.map((project) => (
         <Card
           key={project.name}
-          onClick={md ? () => onClickCard(project) : undefined}
+          onClick={() => onClickCard(project)}
           className="w-full min-w-[200px] md:min-w-[300px]"
         >
           <Flex direction="col">
@@ -65,7 +65,7 @@ const Projects = () => {
                   variant="secondary"
                   onClick={(e) => {
                     e.stopPropagation();
-                    onClickCard(project);
+                    openUrl(project.code);
                   }}
                 >
                   <CodeXml />
