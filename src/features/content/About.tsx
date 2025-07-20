@@ -109,7 +109,7 @@ const About = () => {
         />
         <Flex direction="col" className="ml-3">
           <Text size="base" className="font-bold">
-            University of California, San Diego
+            UC San Diego
           </Text>
           <Text size="base" className="text-primary">
             B.S. Computer Science
