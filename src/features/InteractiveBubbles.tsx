@@ -132,7 +132,6 @@ export default function InteractiveBubbles() {
 
   useEffect(() => {
     setInitialBubblePositions(breakpoints);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [breakpoints, activeBubble]);
 
   const onBubbleClick = (type: BubbleType) => {
