@@ -33,7 +33,7 @@ const Projects = () => {
       {PROJECTS.map((project) => (
         <Card
           key={project.name}
-          onClick={() => onClickCard(project)}
+          onClick={md ? () => onClickCard(project) : undefined}
           className="w-full min-w-[200px] md:min-w-[300px]"
         >
           <Flex direction="col">
