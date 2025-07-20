@@ -12,7 +12,7 @@ export const useGetAnalytics = () => {
     const fetchAnalytics = async () => {
       try {
         setLoading(true);
-        const res = await fetch("/api/redis", { method: "GET" });
+        const res = await fetch("/api/analytics", { method: "GET" });
         const resJson = await res.json();
         setAnalyticsSummary(resJson);
       } catch (error) {

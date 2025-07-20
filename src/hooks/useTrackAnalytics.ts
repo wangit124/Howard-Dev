@@ -8,7 +8,7 @@ export const useTrackAnalytics = () => {
         localStorage.setItem("x-user-id", crypto.randomUUID());
         xUserId = localStorage.getItem("x-user-id");
       }
-      await fetch("/api/redis", {
+      await fetch("/api/analytics", {
         method: "POST",
         headers: xUserId ? { "x-user-id": xUserId } : undefined,
         body: JSON.stringify(data),
