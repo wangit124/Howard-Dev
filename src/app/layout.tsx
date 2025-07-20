@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Inter_Tight } from "next/font/google";
 import "@/styles/globals.css";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -25,6 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${interTight.variable} antialiased`}>
+        <SpeedInsights />
         {children}
         <div id="modal-root" />
       </body>
