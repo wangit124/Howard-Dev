@@ -16,11 +16,11 @@ const About = () => {
   const router = useRouter();
   const { setActiveBubble } = useActiveBubbleStore();
   const goToCareerBubble = () => {
-    setActiveBubble(BubbleType.CAREER);
+    setActiveBubble(BubbleType.CAREER, !md);
     track({ type: "click", entity: "about", item: "career_bubble" });
   };
   const goToProjectsBubble = () => {
-    setActiveBubble(BubbleType.PROJECTS);
+    setActiveBubble(BubbleType.PROJECTS, !md);
     track({ type: "click", entity: "about", item: "projects_bubble" });
   };
   const onClickLinkedIn = () => {

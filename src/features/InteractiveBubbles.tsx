@@ -135,7 +135,7 @@ export default function InteractiveBubbles() {
   }, [breakpoints, activeBubble]);
 
   const onBubbleClick = (type: BubbleType) => {
-    setActiveBubble(type);
+    setActiveBubble(type, !breakpoints.md);
     if (!breakpoints.md) toggleOpen(true);
     track({ type: "click", entity: "bubble", item: type });
   };
