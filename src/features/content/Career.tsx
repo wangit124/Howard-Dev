@@ -4,7 +4,9 @@ import { Collapsible, CustomImage, Text, Flex } from "@/components";
 import { CAREER_ROLES } from "@/data";
 import { useBreakpoints } from "@/hooks/useBreakpoints";
 import { useTrackAnalytics } from "@/hooks/useTrackAnalytics";
+import { COLOR } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { CircleSmall } from "lucide-react";
 
 const Career = () => {
   const { track } = useTrackAnalytics();
@@ -62,9 +64,34 @@ const Career = () => {
               </Flex>
             }
             hiddenContent={
-              <Flex direction="col">
+              <Flex direction="col" className="pt-2">
                 {careerRole.achievements.map((achievement, index) => (
-                  <Text key={index}>- {achievement}</Text>
+                  <Flex key={index} items="start">
+                    <CircleSmall
+                      size={14}
+                      className="mt-[4px] flex-shrink-0"
+                      strokeWidth={2}
+                      color={COLOR.PRIMARY}
+                    />
+                    <Flex
+                      direction="col"
+                      className="text-wrap flex-1 mb-2 ml-1"
+                    >
+                      {achievement.split(`\n`).map((text, textIndex) => (
+                        <Text
+                          key={textIndex}
+                          className={cn(
+                            achievement.split(`\n`).length > 1 &&
+                              textIndex === 0
+                              ? "font-bold"
+                              : ""
+                          )}
+                        >
+                          {text}
+                        </Text>
+                      ))}
+                    </Flex>
+                  </Flex>
                 ))}
               </Flex>
             }
