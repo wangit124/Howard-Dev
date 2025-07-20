@@ -13,7 +13,7 @@ const interTight = Inter_Tight({
 });
 
 export const metadata: Metadata = {
-  title: "Howard Dev Portfolio",
+  title: "Howard - Personal Website & Portfolio",
   description: "Howard Wang's Personal Porfolio Website",
 };
 
