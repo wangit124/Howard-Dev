@@ -148,7 +148,7 @@ export const PROJECTS = [
     thumbnail: "/projects/thumbnails/devbot.png",
     name: "DevBot - Voice Activated Coding Assistant",
     description:
-      "SD Hacks 2022 Submission - An alexa-integrated developer's assistant that generates boilerplate code on your voice command! I created this server-side rendered app from scratch over a 2 day hackathon using Node.js, HTML, CSS, Javascript, Amazon Alexa Skills, Jovo Framework and Firebase.",
+      "SD Hacks 2019 Submission - An alexa-integrated developer's assistant that generates boilerplate code on your voice command! I created this server-side rendered app from scratch over a 2 day hackathon using Node.js, HTML, CSS, Javascript, Amazon Alexa Skills, Jovo Framework and Firebase.",
     code: "https://github.com/wangit124/DevBot-Coding-Assistant",
     skills: [
       "Node.js",
