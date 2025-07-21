@@ -37,7 +37,7 @@ const About = () => {
   };
   const onClickResume = () => {
     track({ type: "click", entity: "about", item: "resume_button" });
-    router.push("/career/howard_wang_resume.pdf");
+    router.push("/career/howard_wang_resume_fullstack.pdf");
   };
   return (
     <Flex direction="col" className="flex-1 w-full">
