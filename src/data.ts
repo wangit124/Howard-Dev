@@ -112,6 +112,7 @@ export const PROJECTS = [
       "Developer companion app that transform your figma designs into production-ready UI code with just a few clicks!",
     code: "https://github.com/wangit124/GenUI",
     video: "/projects/videos/genui.mp4",
+    live: "https://gen-ui-teal.vercel.app",
     aspectRatio: "aspect-[15/8]",
     skills: [
       "Next.js",

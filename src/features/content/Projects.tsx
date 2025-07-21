@@ -7,7 +7,7 @@ import { useBubbleContentModal } from "@/hooks/useBubbleContentModalStore";
 import { useTrackAnalytics } from "@/hooks/useTrackAnalytics";
 import { useVideoModalStore } from "@/hooks/useVideoModalStore";
 import { cn, openUrl } from "@/lib/utils";
-import { CodeXml, Play } from "lucide-react";
+import { CodeXml, Play, Video } from "lucide-react";
 import Image from "next/image";
 
 const Projects = () => {
@@ -17,15 +17,34 @@ const Projects = () => {
     useVideoModalStore();
   const { toggleOpen: toggleBubbleModalOpen } = useBubbleContentModal();
 
-  const onClickCard = (project: (typeof PROJECTS)[0]) => {
+  const trackClick = (project: (typeof PROJECTS)[0]) => {
     track({ type: "click", entity: "projects", item: project.name });
-    if (!project.video) {
-      openUrl(project.code);
-      return;
-    }
+  };
+
+  const openCode = (project: (typeof PROJECTS)[0]) => {
+    if (!project.code) return;
+    trackClick(project);
+    openUrl(project.code);
+  };
+
+  const openVideo = (project: (typeof PROJECTS)[0]) => {
+    if (!project.video) return;
+    trackClick(project);
     setVideoPath(project.video);
     toggleBubbleModalOpen(false);
     toggleVideoModalOpen(true);
+  };
+
+  const openLive = (project: (typeof PROJECTS)[0]) => {
+    if (!project.live) return;
+    trackClick(project);
+    openUrl(project.live);
+  };
+
+  const onClickCard = (project: (typeof PROJECTS)[0]) => {
+    if (project.live) openLive(project);
+    else if (project.video) openVideo(project);
+    else openCode(project);
   };
 
   return (
@@ -61,28 +80,40 @@ const Projects = () => {
                 {project.description}
               </Text>
               <Flex className="py-4 gap-3 flex-wrap">
+                {!!project.live && (
+                  <Button
+                    variant="primary"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openLive(project);
+                    }}
+                  >
+                    <Play />
+                    <Text className="ml-2 font-bold">Live</Text>
+                  </Button>
+                )}
+                {!!project.video && (
+                  <Button
+                    variant={project.live ? "secondary" : "primary"}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openVideo(project);
+                    }}
+                  >
+                    <Video />
+                    <Text className="ml-2 font-bold">Video</Text>
+                  </Button>
+                )}
                 <Button
                   variant="secondary"
                   onClick={(e) => {
                     e.stopPropagation();
-                    openUrl(project.code);
+                    openCode(project);
                   }}
                 >
                   <CodeXml />
                   <Text className="ml-2 font-bold">Code</Text>
                 </Button>
-                {!!project.video && (
-                  <Button
-                    variant="primary"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onClickCard(project);
-                    }}
-                  >
-                    <Play />
-                    <Text className="ml-2 font-bold">Demo</Text>
-                  </Button>
-                )}
               </Flex>
               <HeadingDivider text="Skills" />
               <Flex className="flex-wrap pt-2 gap-2">
